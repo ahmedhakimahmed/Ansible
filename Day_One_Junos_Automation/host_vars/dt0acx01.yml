@@ -1,0 +1,15 @@
+ansible_host: 8.8.8.1  
+Site_name: ANS-dt0acx01   
+lo0_address: 200.200.200.5/32 
+iso_address: 49.0001.0000.0000.0005.00
+
+acx_host:
+  dns_server:
+    - 8.8.8.8
+    - 9.9.9.9
+    - 10.10.10.10
+
+snmp_server: 100.100.100.100
+snmp_description: TESTBED SNMP community
+snmp_location: EXTERNAL DIRECTORY
+

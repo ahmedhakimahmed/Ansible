@@ -1,0 +1,55 @@
+---
+- name: Backup Config for Device 
+  hosts:
+    - all
+  roles:
+    - Juniper.junos
+  connection: local 
+  gather_facts: no
+  vars_prompt:
+    - name: username
+      prompt: Junos Username
+      private: no
+    - name: password
+      prompt: Junos Password
+      private: yes
+
+  vars:
+    backup_dir: "backups"
+    conf_file_xml: "{{ backup_dir}}/{{ inventory_hostname }}.conf.xml"
+    conf_file_text: "{{ backup_dir}}/{{ inventory_hostname }}.conf.txt"
+    conf_file_json: "{{ backup_dir}}/{{ inventory_hostname }}.conf.json"
+    connection_info:
+      host: "{{ ansible_host }}"
+      port: 22
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+
+  tasks:
+    - name: create backup directory if needed 
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+
+    - name: get device configuration
+      junos_get_config:
+        dest: "{{ conf_file_xml }}"
+        provider: "{{ connection_info }}"
+        format: xml 
+
+    - name: get device configuration
+      junos_get_config:
+        dest: "{{ conf_file_text }}"
+        provider: "{{ connection_info }}"
+        format: text
+
+    - name: get device configuration
+      junos_get_config:
+        dest: "{{ conf_file_json }}"
+        provider: "{{ connection_info }}"
+        format: json
+
+    - name: print version
+      debug:
+        var: junos.version 

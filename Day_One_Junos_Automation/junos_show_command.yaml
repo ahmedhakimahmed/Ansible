@@ -1,0 +1,40 @@
+---
+- name: Run Junos Commnads 
+  hosts: 
+       - all
+  gather_facts: no
+  connection: local
+  
+  vars_prompt:
+       - name: username
+         prompt: Junos Username
+         private: no
+  
+       - name: password
+         prompt: Junos Password
+         private: yes
+  
+  tasks:
+       - name: Junos show commands    
+         junos_command:
+           commands: 
+            - show chassis alarms
+            - show system alarms
+              # - show configuration system hostname  
+           display: set   
+           provider:
+            host: "{{ ansible_host }}"
+            port: 22
+            username: "{{ username }}"
+            password: "{{ password }}"
+            logfile: cli.log
+            dest: "{{ ansible_host }}.txt"
+            format: text
+         register: result
+        
+       - name: display version 
+         debug: var=result
+
+       - name: Print response 
+         debug:
+           var: junos_result   

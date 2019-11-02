@@ -1,0 +1,14 @@
+<configuration changed-seconds="1572019754" changed-localtime="2019-10-25 16:09:14 UTC">
+  <system>
+    <login>
+      <user>
+        <name>ahmed</name>
+        <uid>2000</uid>
+        <class>super-user</class>
+        <authentication>
+          <encrypted-password>$1$b.ptPAMe$5Er8zp0uuBIpSYRMxXK3r1</encrypted-password>
+        </authentication>
+      </user>
+    </login>
+  </system>
+</configuration>

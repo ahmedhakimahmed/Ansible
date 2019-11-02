@@ -1,0 +1,4 @@
+ansible_host: 7.7.7.1  
+Site_name: ANS-dt0e9215   
+lo0_address: 200.200.200.4/32 
+iso_address: 49.0001.0000.0000.0004.00

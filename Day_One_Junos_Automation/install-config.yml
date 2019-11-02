@@ -1,0 +1,31 @@
+---
+- name: Install Configuration File
+  hosts:
+    - all 
+  roles: 
+    - Juniper.junos 
+  connection: local 
+  gather_facts: no
+  vars_prompt:
+      - name: username
+        prompt: Junos Username 
+        private: no
+      - name: password 
+        prompt: Junos Password 
+        private: yes 
+  tasks:
+    - name: install configuration file on device 
+      junos_install_config:
+        host: "{{ ansible_host }}"
+        password: "{{password}}"
+        username: "{{username}}"
+        file: "/home/aahmed/Configuration/hostname.conf"
+        timeout: 120
+        comment: "Install Config - Using Ansible Playbook" 
+#  tasks:
+#    - name: show version 
+#      junos_command:
+#          commands: show version
+#          host: "{{ ansible_host }}" 
+#          password: "{{password}}"
+#          username: "{{username}}"

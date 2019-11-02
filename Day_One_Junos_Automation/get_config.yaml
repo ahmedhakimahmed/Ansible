@@ -1,0 +1,56 @@
+---
+- name: Prepare timestamp
+  hosts: 
+    - localhost
+  connection: local
+  gather_facts: yes
+
+  vars:
+    systime: "{{ ansible_date_time.time | replace(':' , ''-) }}"
+  
+  tasks:
+    - debug: var=ansible_date_time.time
+    - debug: var=systime
+
+    - name: get system date and time
+      set_fact:
+        timestamp: "{{ ansible_date_time.date }}_{{ systime }}"
+
+- name: Backup Device Configuration
+  hosts:
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  vars:
+    backup_dir: "backups_with_time"
+    temp_conf_file: "{{ backup_dir }}/{{ inventory_hostname }}"
+    conf_file: "{{ temp_Conf_file }}_{{ hostvars.localhost.timestamp  }}.conf"
+    connection_info:
+      host: "{{ ansible_host }}"
+      port: 22
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+  tasks:
+    - name: create backup directory if needed 
+      file: 
+        path: "{{ backup_dir }}"
+        state: directory 
+
+    - name: save device configuration in temp file
+      junos_get_config:
+        provider: "{{ connection_info }}"
+        dest: "{{ temp_conf_file }}"
+        format: text
+      register: config_results
+
+    - debug: var=config_results
+
+    - name: copy temporary file if different
+      copy:
+        src: "{{ temp_conf_file }}"
+        dest: "{{ conf_file }}"
+      when: config_results.changed

@@ -1,0 +1,189 @@
+
+## Last changed: 2019-10-25 16:09:14 UTC
+version 14.1R1.10;
+system {
+    host-name ANS-dt0acx01;
+    root-authentication {
+        encrypted-password "$1$W9q9Elix$9G2/9UQuOnGweWv0UdbG71";
+    }
+    name-server {
+        8.8.8.8;
+        9.9.9.9;
+        10.10.10.10;
+    }
+    login {
+        user ahmed {
+            uid 2000;
+            class super-user;
+            authentication {
+                encrypted-password "$1$b.ptPAMe$5Er8zp0uuBIpSYRMxXK3r1";
+            }
+        }
+    }
+    services {
+        ssh;
+        netconf {
+            ssh;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+        file interactive-commands {
+            interactive-commands any;
+        }
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 200;
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        description dt0e9214;
+        vlan-tagging;
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.10.123.1/30;
+            }
+            family iso;
+        }
+        unit 6 {
+            vlan-id 6;
+        }
+    }
+    ge-0/0/1 {
+        description eNB;
+        gigether-options {
+            802.3ad ae59;
+        }
+    }
+    ge-0/0/2 {
+        description BTS;
+        gigether-options {
+            802.3ad ae105;
+        }
+    }
+    ge-0/0/3 {
+        description vMX;
+        gigether-options {
+            802.3ad ae115;
+        }
+    }
+    ge-0/0/7 {
+        description "MGMT - LINUX";
+        unit 0 {
+            family inet {
+                address 8.8.8.1/24;
+            }
+        }
+    }
+    ge-0/0/8 {
+        unit 0 {
+            family bridge {
+                interface-mode access;
+                vlan-id 1111;
+            }
+        }
+    }
+    ae105 {
+        description BTS;
+        unit 0 {
+            family inet {
+                address 10.10.105.5/24;
+            }
+        }
+    }
+    ae115 {
+        description vMX;
+        unit 0 {
+            family inet {
+                address 192.10.115.5/24;
+            }
+        }
+    }
+    inactive: ae35 {
+        description dt0e9214;
+        unit 0 {
+            family inet {
+                address 10.10.35.5/24;
+            }
+        }
+    }
+    ae59 {
+        description eNB;
+        unit 0 {
+            family inet {
+                address 192.10.105.5/24;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.11.11.100/32;
+                address 200.200.200.5/32;
+            }
+            family iso {
+                address 49.0001.0000.0000.0100.00;
+                address 49.0001.0000.0000.0005.00;
+            }
+        }
+    }
+}
+snmp {
+    community TESTBED {
+        authorization read-write;
+    }
+}
+routing-options {
+    static {
+        route 198.18.192.0/24 next-hop 8.8.8.2;
+    }
+}
+protocols {
+    bgp {
+        group L3VPN {
+            type internal;
+            local-address 192.11.11.100;
+            family inet-vpn {
+                unicast;
+            }
+            local-as 100;
+            neighbor 192.11.11.11;
+        }
+        group eNB {
+            type external;
+            peer-as 1000;
+            local-as 100;
+            neighbor 192.10.105.10 {
+                peer-as 1000;
+            }
+        }
+    }
+    isis {
+        level 1 disable;
+        interface ge-0/0/0.5;
+        interface lo0.0;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        interface all;
+    }
+}
+bridge-domains {
+    TESTBED-ACX-BTS {
+        domain-type bridge;
+        vlan-id 111;
+        interface xe-0/0/0.0;
+    }
+}

@@ -1,0 +1,5 @@
+ansible_host: 4.4.4.1  
+Site_name: ANS-dt0q10k01  
+lo0_address: 200.200.200.1/32 
+iso_address: 49.0001.0000.0000.0001.00
+

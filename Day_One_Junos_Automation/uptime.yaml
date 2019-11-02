@@ -1,0 +1,12 @@
+---
+- name: Get device uptime
+  hosts:
+          - vqfx1
+            mx-80-1
+            vMX1
+  connection: local
+  gather_facts: yes
+  tasks:
+          - debug: var=inventory_hostname
+          - debug:
+                  var: ansible_host

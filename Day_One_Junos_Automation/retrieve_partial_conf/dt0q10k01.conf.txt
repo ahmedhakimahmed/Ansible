@@ -1,0 +1,13 @@
+
+## Last changed: 2019-10-25 11:49:28 UTC
+system {
+    login {
+        user ahmed {
+            uid 2000;
+            class super-user;
+            authentication {
+                encrypted-password "$6$v3.tCX7U$SZsszSB7DfJzPe8NGkAzw52Ra.SnVdk1nSx6pMBkUzA1iWItU1clXULpF4fVYOOTv4DC.sj763W9fHUL4wBSZ.";
+            }
+        }
+    }
+}
