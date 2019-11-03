@@ -1,0 +1,30 @@
+system {
+    host-name {{ Site_name }};
+    name-server {
+        {% for server in acx_host.dns_server %}
+           {{ server }};
+        {% endfor %}
+    }
+    tacplus-server {
+     {{ tacacs_server }};
+  }    
+}
+snmp {
+    community {{ snmp_server }} {
+        authorization read-write;
+    description "{{ snmp_description }}"
+    location "{{ snmp_location }}"
+    }
+}
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address {{ lo0_address }};
+            }
+            family iso {
+                address {{ iso_address }};
+            }
+        }
+     }
+ }        
