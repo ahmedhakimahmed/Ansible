@@ -1,13 +1,5 @@
 
-## Last changed: 2019-10-25 11:49:28 UTC
+## Last changed: 2019-11-03 09:50:04 UTC
 system {
-    login {
-        user ahmed {
-            uid 2000;
-            class super-user;
-            authentication {
-                encrypted-password "$6$v3.tCX7U$SZsszSB7DfJzPe8NGkAzw52Ra.SnVdk1nSx6pMBkUzA1iWItU1clXULpF4fVYOOTv4DC.sj763W9fHUL4wBSZ.";
-            }
-        }
-    }
+    host-name dt0q10k01;
 }

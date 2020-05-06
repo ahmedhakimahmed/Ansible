@@ -1,14 +1,5 @@
-<configuration changed-seconds="1572004168" changed-localtime="2019-10-25 11:49:28 UTC">
+<configuration changed-seconds="1572774604" changed-localtime="2019-11-03 09:50:04 UTC">
   <system>
-    <login>
-      <user>
-        <name>ahmed</name>
-        <uid>2000</uid>
-        <class>super-user</class>
-        <authentication>
-          <encrypted-password>$6$v3.tCX7U$SZsszSB7DfJzPe8NGkAzw52Ra.SnVdk1nSx6pMBkUzA1iWItU1clXULpF4fVYOOTv4DC.sj763W9fHUL4wBSZ.</encrypted-password>
-        </authentication>
-      </user>
-    </login>
+    <host-name>dt0q10k01</host-name>
   </system>
 </configuration>

@@ -1,0 +1,4619 @@
+
+## Last changed: 2020-01-13 18:06:43 UTC
+version 17.4R2-S6;
+groups {
+    re0 {
+        system {
+            host-name dt0q10k01-re0;
+            backup-router 198.18.192.1 destination [ 198.18.0.0/16 10.248.0.0/13 192.168.0.0/16 ];
+        }
+        interfaces {
+            em0 {
+                description "dt0q10k01 em0 - Gi2/7 dt0d4501";
+                unit 0 {
+                    family inet {
+                        address 198.18.192.30/24 {
+                            master-only;
+                        }
+                        address 198.18.192.31/24;
+                    }
+                }
+            }
+        }
+    }
+    re1 {
+        system {
+            host-name dt0q10k01-re1;
+            backup-router 198.18.192.1 destination [ 192.168.0.0/16 10.248.0.0/13 198.18.0.0/16 ];
+        }
+        interfaces {
+            em0 {
+                description "dt0q10k01 em0 - Gi4/7 dt0d4501";
+                unit 0 {
+                    family inet {
+                        address 198.18.192.30/24 {
+                            master-only;
+                        }
+                        address 198.18.192.32/24;
+                    }
+                }
+            }
+        }
+    }
+    IF-LOOPBACK {
+        interfaces {
+            lo0 {
+                unit <*> {
+                    family inet {
+                        filter {
+                            input IPF-IP4-COPP-VRF-IN;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+apply-groups [ re0 re1 ];
+system {
+    domain-name hutchison3g.net;
+    backup-router 198.18.192.1 destination [ 192.168.0.0/16 10.248.0.0/13 198.18.0.0/16 ];
+    time-zone UTC;
+    no-redirects;
+    arp {
+        aging-timer 5;
+        passive-learning;
+    }
+    authentication-order [ radius password ];
+    ports {
+        console log-out-on-disconnect;
+    }
+    root-authentication {
+        encrypted-password "$1$OMkwM7Zc$Jmk2zbZmGswO9keNnmsoX.";
+    }
+    inactive: name-server {
+        192.168.133.2;
+        192.168.6.3;
+        192.168.70.2;
+        192.168.5.2;
+    }
+    radius-server {
+        198.18.192.20 secret "$9$g84UiPfz6CuQF6Ap0hcevW8L7-Vw2oJN-";
+    }
+    scripts {
+        op {
+            file CHASSIS-VALIDATION.slax;
+        }
+    }
+    login {
+        message "#################################################################################\n#                                                                               #\n#         _______ _                     _____          _                 _      #\n#        |__   __| |                   |_   _|        | |               | |     #\n#           | |  | |__  _ __ ___  ___    | |  _ __ ___| | __ _ _ __   __| |     #\n#           | |  | \'_ \\| \'__/ _ \\/ _ \\   | | | \'__/ _ \\ |/ _` | \'_ \\ / _` |     #\n#           | |  | | | | | |  __/  __/  _| |_| | |  __/ | (_| | | | | (_| |     #\n#           |_|  |_| |_|_|  \\___|\\___| |_____|_|  \\___|_|\\__,_|_| |_|\\__,_|     #\n#                                                                               #\n#                                                                               #\n#           This is a Testlab enviroment, when configuring this device :        #\n#                                                                               #\n#                - please use  \'configure private\' command                      #\n#                - notify the lab team at : Janusz.Gorbaczow@three.ie           #\n#                                                                               #\n#                                                                               #\n#                                                                               #\n#################################################################################";
+        class design {
+            idle-timeout 30;
+            permissions [ network trace view view-configuration ];
+            allow-commands "request support information";
+        }
+        class read-only-local {
+            idle-timeout 30;
+            permissions [ interface network view view-configuration ];
+            allow-commands "request support information";
+        }
+        class super-user-local {
+            idle-timeout 30;
+            permissions all;
+        }
+        user AAhmed {
+            full-name "Ahmed Abdelhakimahmed";
+            uid 2024;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$nc4DASpT$bXDKO71bGRrIvcpDH/TurcDNyFqojUAWX2tuu7HINb4";
+            }
+        }
+        user REnev {
+            uid 2080;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$hVonj2ja$s7slZaI8ygbc0QuVScjA/0";
+            }
+        }
+        user Remote-read-only {
+            uid 2034;
+            class read-only-local;
+        }
+        user Remote-super-user {
+            uid 2035;
+            class super-user;
+        }
+        user aaladenise {
+            full-name "Antoine Aladenise";
+            uid 2003;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$ti4I/Yyf$m.YbRQ8HrFNIfl2GHkXLQ1";
+            }
+        }
+        user aeftei {
+            full-name "Adrian Eftei";
+            uid 2031;
+            class read-only-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user amcgarry {
+            full-name "Anthony McGarry";
+            uid 2001;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$qKBqkx18$KUS2IRzLxgyezK3kNEs/i/";
+            }
+        }
+        user cgiura {
+            full-name "Catalin Giura";
+            uid 2027;
+            class read-only-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user cowec {
+            uid 2085;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$m6LRKoZb$l2quId5R4H3yblQWfvhU80";
+            }
+        }
+        user cruz_h {
+            full-name "Hudson Cruz";
+            uid 2021;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$ZUgT8bC8$w2ZOM.Y22Xca6hYdHNK9jCwwnZ6t8UbyR.s22hKKIh9";
+            }
+        }
+        user eoconnor {
+            full-name "Eoin OConnor";
+            uid 2025;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$EWygxOXW$A8G0dPxczNqqsBF2DJ2wm03XJxaHgzGnlVlpwC31LlA";
+            }
+        }
+        user fernandez_a {
+            full-name "Adrian Fontenla";
+            uid 2006;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user jgorbaczow {
+            uid 2095;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$7eC0ecvw$XYgpz4pWborf5oQ91LfjJ.";
+            }
+        }
+        user ktaha {
+            full-name "Kareem Taha";
+            uid 2030;
+            class read-only-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user lcapsuna {
+            full-name "Laurentiu Capsuna";
+            uid 2002;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$ypmzY1/4$eAkH1Gs.CZ52Db5C1Gl5.0";
+            }
+        }
+        user luof {
+            full-name "Fei Luo";
+            uid 2008;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user manoj.kumar {
+            uid 2037;
+            class super-user-local;
+            authentication {
+                encrypted-password "$6$bN0t4rWN$pPkEEq1jh8uZIQeJZjWV8Lcam8oxZAFpFGb8srF3avkvxrWzTDj1gO7TqgRBY9fttVvN9SgKqhIDej4RqIUX6.";
+            }
+        }
+        user msweeney {
+            uid 2013;
+            class super-user;
+            authentication {
+                encrypted-password "$1$Y7I1qM5e$wcyVUrYglSPxxar5Qozij0";
+            }
+        }
+        user mulveya {
+            full-name "Adrian Mulvey";
+            uid 2009;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user musa {
+            uid 2038;
+            class super-user-local;
+            authentication {
+                encrypted-password "$6$j378vA21$kVPFEVg4SCgQ9TV3NsicqMAI1lEse9hsVzs0q8G5AV.c0pAgAPGQUrU6kmofyKBN3TKNBbRWMWItg0N1U4VXX/";
+            }
+        }
+        user oliveira_w {
+            full-name "Wellington De Oliveira";
+            uid 2010;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user oneill_j {
+            full-name "JP ONeill";
+            uid 2023;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$ZUgT8bC8$w2ZOM.Y22Xca6hYdHNK9jCwwnZ6t8UbyR.s22hKKIh9";
+            }
+        }
+        user oneilly {
+            full-name "Yvonne O'Neill";
+            uid 2011;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user page_d {
+            full-name "Daniel Page";
+            uid 2012;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user pkelly {
+            full-name "Patrick Kelly";
+            uid 2004;
+            class super-user-local;
+            authentication {
+                encrypted-password "$6$JLubpwru$0H/RBYYXUc4kR4dCaAuf6UBuHuQ/fAzTOUGJBRqk1fYwAcsKPrMzrK0qHfPvJEZTpWNwZP/2MEO64i1qVf95S0";
+            }
+        }
+        user pmccreesh {
+            uid 2022;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$9mRlYMFN$I/9DteUeuF.RRh4gwJ.k3/";
+            }
+        }
+        user remote {
+            full-name "default remote access user template";
+            uid 2036;
+            class read-only;
+        }
+        user ssheedy {
+            uid 2083;
+            class super-user-local;
+            authentication {
+                encrypted-password "$1$E7.zNnE/$Vz7iafYm0t/RL6cfrTnXH.";
+            }
+        }
+        user talves {
+            full-name "Thiago Alves";
+            uid 2026;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$ZUgT8bC8$w2ZOM.Y22Xca6hYdHNK9jCwwnZ6t8UbyR.s22hKKIh9";
+            }
+        }
+        user tomasz {
+            uid 2014;
+            class super-user;
+            authentication {
+                encrypted-password "$1$IgXGpI36$HNQuCkRiDfeQ1lWWO.jHH0";
+            }
+        }
+        user vladann {
+            full-name "Vladan Nikodijevic";
+            uid 2033;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+        user wertet {
+            full-name "Tomasz Werte";
+            uid 2017;
+            class super-user-local;
+            authentication {
+                encrypted-password "$5$LwAxrU6W$5fCzUTXfhCN0cwDqnpwy0SIFc2RkvuMosb1XyIZF1B9";
+            }
+        }
+    }
+    services {
+        ftp;
+        ssh {
+            root-login allow;
+            protocol-version v2;
+            connection-limit 10;
+            rate-limit 10;
+        }
+        telnet;
+        netconf {
+            ssh;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+        }
+        host 198.18.255.155 {
+            any warning;
+            interactive-commands any;
+            match "!(.*%DAEMON-4.*license.*|.*PFE.*fpc11.*MQCHIP.*LI.*)";
+            explicit-priority;
+        }
+        file interactive-commands {
+            interactive-commands any;
+            explicit-priority;
+        }
+        file syslog {
+            any warning;
+            interactive-commands any;
+            explicit-priority;
+        }
+        file firewall {
+            firewall any;
+            explicit-priority;
+        }
+        file messages {
+            any warning;
+            authorization none;
+            firewall none;
+            interactive-commands none;
+            match "!(.*sshd.*status 255.*|.*aggregated-ether-options link-speed.*|.*%DAEMON-4.*license.*|.*BGP Routing Protocol usage requires a license.*)";
+        }
+        file default-log {
+            any any;
+        }
+        file interface-logs {
+            any any;
+            match ifOperStatus;
+        }
+    }
+    archival {
+        configuration {
+            transfer-on-commit;
+            archive-sites {
+                "ftp://testbedftp@198.18.255.155" password "$9$n7NX6pBEcyKWxSrK87Nbw4aZ";
+            }
+        }
+    }
+    commit synchronize;
+    processes {
+        routing failover other-routing-engine;
+        app-engine-virtual-machine-management-service {
+            traceoptions {
+                level notice;
+                flag all;
+            }
+        }
+    }
+    ntp {
+        server 192.168.255.33;
+        server 192.168.255.44;
+        server 198.18.253.32;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 200;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            port 0 {
+                channel-speed 10g;
+            }
+            port 1 {
+                channel-speed 10g;
+            }
+            port 2 {
+                channel-speed 10g;
+            }
+            port 3 {
+                channel-speed 10g;
+            }
+            port 4 {
+                channel-speed 10g;
+            }
+            port 5 {
+                channel-speed 10g;
+            }
+            port 8 {
+                channel-speed 10g;
+            }
+            port 9 {
+                channel-speed 10g;
+            }
+            port 20 {
+                channel-speed 10g;
+            }
+            port 21 {
+                channel-speed 10g;
+            }
+            port 22 {
+                channel-speed 10g;
+            }
+            port 23 {
+                channel-speed 10g;
+            }
+            port 24 {
+                channel-speed 10g;
+            }
+            port 25 {
+                channel-speed 10g;
+            }
+            port 28 {
+                channel-speed 10g;
+            }
+            port 29 {
+                channel-speed 10g;
+            }
+        }
+        sampling-instance S1;
+    }
+    fpc 1 {
+        pic 0 {
+            port 60 {
+                speed 100g;
+            }
+            port 64 {
+                speed 100g;
+            }
+        }
+        sampling-instance S1;
+    }
+    fpc 2 {
+        pic 0 {
+            port 60 {
+                speed 100g;
+            }
+        }
+    }
+    fpc 3 {
+        pic 0 {
+            port 60 {
+                speed 100g;
+            }
+        }
+    }
+    fpc 5 {
+        power off;
+    }
+}
+services {
+    flow-monitoring {
+        version9 {
+            template ipv4 {
+                flow-active-timeout 60;
+                flow-inactive-timeout 60;
+                template-refresh-rate {
+                    seconds 10;
+                }
+                option-refresh-rate {
+                    packets 1000;
+                    seconds 10;
+                }
+                ipv4-template;
+            }
+        }
+        version-ipfix {
+            template ipv4 {
+                flow-active-timeout 60;
+                flow-inactive-timeout 60;
+                template-refresh-rate {
+                    seconds 10;
+                }
+                option-refresh-rate {
+                    packets 1000;
+                    seconds 10;
+                }
+                ipv4-template;
+            }
+        }
+    }
+    rpm {
+        probe VRF_DIRTY {
+            test TMS {
+                probe-type icmp-ping;
+                target address 172.16.243.162;
+                probe-count 3;
+                probe-interval 5;
+                test-interval 5;
+                routing-instance VRF_DIRTY;
+                thresholds {
+                    successive-loss 3;
+                    total-loss 3;
+                }
+                traps [ probe-failure test-failure ];
+                destination-interface ae15.100;
+            }
+        }
+    }
+}
+interfaces {
+    gr-0/0/0 {
+        unit 0 {
+            tunnel {
+                source 185.60.124.54;
+                destination 185.60.124.55;
+                routing-instance {
+                    destination VRF_INTERNET_TRANSIT;
+                }
+            }
+            family inet {
+                mtu 1476;
+                address 10.101.104.37/30;
+            }
+        }
+        inactive: unit 10 {
+            tunnel {
+                source 172.16.239.60;
+                destination 172.16.239.61;
+            }
+            family inet;
+        }
+        unit 100 {
+            description "Arbor Cloud - Clean traffic";
+            tunnel {
+                source 185.60.124.54;
+                destination 156.154.212.224;
+                routing-instance {
+                    destination VRF_INTERNET_TRANSIT;
+                }
+            }
+            family inet {
+                mtu 1476;
+            }
+        }
+    }
+    et-0/0/0:0 {
+        disable;
+    }
+    xe-0/0/0:0 {
+        description "xe-0/0/0:0 ae8 dt0q10k01 - dt0e9214 ae8 xe-1/3/4";
+        ether-options {
+            802.3ad ae8;
+        }
+    }
+    xe-0/0/0:1 {
+        description "xe-0/0/0:1 ae8 dt0q10k01 - dt0e9214 ae8 xe-1/3/5";
+        ether-options {
+            802.3ad ae8;
+        }
+    }
+    xe-0/0/0:2 {
+        description "xe-0/0/0:2 ae8 dt0q10k01 - dt0e9214 ae8 xe-1/3/6";
+        flexible-vlan-tagging;
+        unit 0 {
+            vlan-tags outer 3000 inner 7;
+            family inet {
+                address 10.10.125.2/30;
+            }
+        }
+    }
+    xe-0/0/0:3 {
+        description dt0e9214;
+        ether-options {
+            802.3ad ae60;
+        }
+        inactive: unit 3128 {
+            encapsulation vlan-ccc;
+            vlan-id 3128;
+        }
+    }
+    xe-0/0/1:0 {
+        description "DT0N9L01;Eth1/2;ipoperations@bt.com;PE_to_Nexus_Uplink";
+        gigether-options {
+            802.3ad ae16;
+        }
+    }
+    xe-0/0/1:1 {
+        description "DT0HD1K1 tms0";
+        ether-options {
+            802.3ad ae15;
+        }
+    }
+    xe-0/0/1:2 {
+        ether-options {
+            802.3ad ae11;
+        }
+    }
+    xe-0/0/1:3 {
+        ether-options {
+            802.3ad ae12;
+        }
+    }
+    xe-0/0/2:0 {
+        description "dt0q10k01 xe-0/2/0 - XGLC-2 0 DT0SEG81 ";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                mtu 1600;
+                address 172.30.239.169/30;
+            }
+        }
+    }
+    xe-0/0/2:1 {
+        description "dt0q10k01 xe-0/2/1 - XGLC-2 1 DT0SEG81 ";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                mtu 1600;
+                address 172.30.239.177/30;
+            }
+        }
+    }
+    xe-0/0/3:1 {
+        description "dt0q10k01 xe-0/0/3:1 - LENA-0 0/0/5 DT0SAE81";
+        ether-options {
+            802.3ad ae103;
+        }
+    }
+    xe-0/0/3:2 {
+        description "dt0q10k01 xe-0/0/3:2 - LENA-1 0/1/5 DT0SAE81";
+        ether-options {
+            802.3ad ae103;
+        }
+    }
+    et-0/0/14 {
+        description "DT0S5801 et-8/1/0 ae0";
+        gigether-options {
+            802.3ad ae20;
+        }
+    }
+    et-0/0/15 {
+        description "DT0S5801 et-8/3/0 ae0";
+        gigether-options {
+            802.3ad ae20;
+        }
+    }
+    et-0/0/19 {
+        description "To dt0q10k02 et-0/0/19";
+        mtu 9192;
+        unit 0 {
+            family inet {
+                inactive: filter {
+                    input ff-test-l3;
+                    output ff-test-l3;
+                }
+                address 172.16.241.9/30;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/0/20 {
+        vlan-tagging;
+        inactive: unit 505 {
+            description "dt0q10k02 - test FlowSpec origination from server";
+            vlan-id 505;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+            }
+        }
+    }
+    xe-1/0/0 {
+        description "dt0q10k01 xe-1/0/0 - xe-1/3/3 dt0e9214";
+        unit 0;
+    }
+    ge-1/0/1 {
+        description "dt0q10k01 ge-1/0/1 - BH0 DT0002";
+        mtu 1614;
+        unit 0 {
+            family ethernet-switching {
+                interface-mode trunk;
+                vlan {
+                    members 330;
+                }
+            }
+        }
+    }
+    ge-1/0/2 {
+        description "DTQ10K01 ge-1/0/2 - igb0 dt0dnseip01-VRF_GI_HT&FP";
+        unit 0 {
+            family inet {
+                address 172.16.242.89/30;
+            }
+        }
+    }
+    ge-1/0/5 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1051 {
+            description VRF_PS-DNS_Gn_Gp-172.16.242.72/30;
+            vlan-id 1051;
+            family inet {
+                address 172.16.242.73/30;
+            }
+        }
+        unit 1052 {
+            description VRF_DCN-DNS-172.16.242.80/30;
+            vlan-id 1052;
+            family inet {
+                address 172.16.242.81/30;
+            }
+        }
+        unit 1056 {
+            description VRF_TB_INT_IN-DNS_INTERNET-172.16.241.180/31;
+            vlan-id 1056;
+            family inet {
+                address 172.16.241.180/31;
+            }
+        }
+        unit 1060 {
+            description VRF_TB_INT_IN-DNS-172.16.243.24/30;
+            vlan-id 1060;
+            family inet {
+                address 172.16.243.25/30;
+            }
+        }
+    }
+    ge-1/0/8 {
+        description "ERSPAN Testing Janusz and Lars";
+        speed 1g;
+        unit 0 {
+            family inet {
+                address 1.1.1.200/31;
+            }
+        }
+    }
+    xe-1/0/10 {
+        description "To DT0NFVBL01 MPO5 Port17 - Ericsson NFVI Data Fabric Temp circuit";
+        ether-options {
+            802.3ad ae21;
+        }
+    }
+    xe-1/0/11 {
+        description "To DT0NFVBL02 MPO5 Port17 - Ericsson NFVI Data Fabric Temp circuit";
+        ether-options {
+            802.3ad ae21;
+        }
+    }
+    et-1/0/60 {
+        ether-options {
+            802.3ad ae6;
+        }
+    }
+    ge-2/0/0 {
+        unit 0 {
+            family inet {
+                address 10.11.12.5/30;
+            }
+        }
+    }
+    ge-2/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    ge-2/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    ge-3/0/0 {
+        unit 0 {
+            family inet {
+                address 10.11.12.6/30;
+            }
+        }
+    }
+    ge-3/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    ge-3/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    ae6 {
+        aggregated-ether-options {
+            lacp {
+                active;
+            }
+        }
+        unit 0 {
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                address 172.17.31.6/30;
+            }
+        }
+    }
+    ae8 {
+        description "dt0q10k01 ae8 - ae8 dt0e9214";
+        flexible-vlan-tagging;
+        mtu 9192;
+        aggregated-ether-options {
+            link-speed 10g;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 206 {
+            description "DT0E9214 VRF_GI";
+            vlan-id 206;
+            family inet {
+                address 172.16.243.148/31;
+            }
+        }
+        unit 207 {
+            description "DT0E9214 VRF_TB_INT_IN";
+            vlan-id 207;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                sampling {
+                    input;
+                }
+                address 172.16.243.156/31;
+            }
+        }
+        unit 400 {
+            description "dt0e9214 VRF_DCN";
+            vlan-id 400;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                sampling {
+                    input;
+                }
+                address 198.18.253.107/31;
+            }
+        }
+        unit 401 {
+            description "dn2e9214 VRF_INTERNET_TRANSIT - BGP FlowSpec with Arbor Collector";
+            vlan-id 401;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                address 172.16.243.186/30;
+            }
+        }
+        unit 610 {
+            description "dt0e9214 ae8 - TESTVM to VRF_INTERNET_TRANSIT - ae8 dt0q10k01";
+            vlan-id 610;
+            family inet {
+                filter {
+                    input INTERNET_TRANSIT_IN;
+                    output INTERNET_TRANSIT_OUT;
+                }
+                address 172.17.1.2/30;
+            }
+        }
+        unit 631 {
+            description "dt0e9214 ae8 - CORP_APN - ae8 dt0q10k01";
+            vlan-id 631;
+            family inet {
+                mtu 1500;
+                address 172.16.244.41/30;
+            }
+        }
+        unit 635 {
+            description "TO DT0E9214 VRF_TB_OAM_MDS_EXT";
+            vlan-id 635;
+            family inet {
+                address 172.16.244.53/31;
+            }
+        }
+        unit 637 {
+            description "DT0E9214 VRF_RAN";
+            vlan-id 637;
+            family inet {
+                address 172.16.244.72/31;
+            }
+        }
+        unit 638 {
+            description "DT0E9214 EPC";
+            vlan-id 638;
+            family inet {
+                address 172.16.244.74/31;
+            }
+        }
+        unit 639 {
+            description "DT0E9214 PS";
+            vlan-id 639;
+            family inet {
+                address 172.16.244.76/31;
+            }
+        }
+        unit 640 {
+            description "DT0E9214 VRF HT";
+            vlan-id 640;
+            family inet {
+                address 172.16.244.79/31;
+            }
+        }
+        unit 682 {
+            vlan-id 682;
+            family inet {
+                mtu 1500;
+                address 172.16.240.244/31;
+            }
+        }
+        unit 684 {
+            vlan-id 684;
+            family inet {
+                mtu 1500;
+                address 172.16.240.248/31;
+            }
+        }
+        unit 735 {
+            description "To  - BT 4G RAN via dt0e9214";
+            vlan-id 735;
+            family inet {
+                address 172.16.241.177/30;
+            }
+        }
+        unit 736 {
+            description "To  - VRF_TOP via dt0e9214";
+            vlan-id 736;
+            family inet {
+                address 172.16.243.241/30;
+            }
+        }
+        unit 991 {
+            description "Test qfx-ex Interface Flapping";
+            vlan-id 991;
+            family inet {
+                address 9.9.21.1/24;
+            }
+        }
+        inactive: unit 2060 {
+            encapsulation vlan-ccc;
+            vlan-id 2060;
+        }
+        unit 3000 {
+            description "Site Collector: ACX";
+            vlan-tags outer 3000 inner 5;
+            family inet {
+                address 10.10.123.2/30;
+            }
+            family iso;
+            family mpls;
+        }
+        unit 3125 {
+            vlan-id 3125;
+            family inet {
+                mtu 1500;
+                address 10.1.3.1/24;
+            }
+        }
+        unit 3127 {
+            vlan-tags outer 3127 inner 100;
+            family inet {
+                mtu 1500;
+                address 10.11.33.1/24;
+            }
+        }
+        unit 4010 {
+            description TEST-EX4;
+            vlan-id 4010;
+            family inet {
+                address 10.10.10.1/31;
+            }
+        }
+    }
+    ae103 {
+        description "dt0q10k01 ae103 - DT0SAE81 - VRF_GI";
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            link-speed 10g;
+        }
+        unit 101 {
+            description "dt0q10k01 ae103.101 - DT0SAE81 - VRF_GI";
+            vlan-id 101;
+            family inet {
+                mtu 1500;
+                address 172.30.239.141/30;
+            }
+        }
+        unit 111 {
+            description "dt0q10k01 ae103.111 - DT0SAE81 - VRF_GI";
+            vlan-id 111;
+            family inet {
+                mtu 1500;
+                address 172.30.239.149/30;
+            }
+        }
+    }
+    ae11 {
+        description "dt015k01 - Internal channel";
+        flexible-vlan-tagging;
+        mtu 9192;
+        aggregated-ether-options {
+            link-speed 10g;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1000 {
+            description "dt0q10k01 - VRF_INTERNET_TRANSIT";
+            vlan-id 1000;
+            family inet {
+                address 172.16.243.152/31;
+            }
+        }
+        unit 1001 {
+            description "dt0q10k01 - VRF_CLEAN - Return traffic from TMS";
+            vlan-id 1001;
+            family inet {
+                address 172.16.243.210/31;
+            }
+        }
+    }
+    ae12 {
+        description "dt015k01 - External channel";
+        flexible-vlan-tagging;
+        mtu 9192;
+        aggregated-ether-options {
+            link-speed 10g;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1000 {
+            description "dt0q10k01 - VRF_GI";
+            vlan-id 1000;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                address 172.16.243.153/31;
+            }
+        }
+        unit 1001 {
+            description "dt0q10k01 - VRF_GI - Return traffic from TMS";
+            vlan-id 1001;
+            family inet {
+                address 172.16.243.211/31;
+            }
+        }
+    }
+    ae15 {
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            link-speed 10g;
+            lacp {
+                active;
+            }
+        }
+        unit 100 {
+            description "DT0HD1K1 VRF_DIRTY";
+            vlan-id 100;
+            family inet {
+                filter {
+                    group 3;
+                }
+                address 172.16.243.161/30;
+            }
+        }
+        unit 200 {
+            description "DT0HD1K1 CLEAN traffic within VRF_INTERNET_TRANSIT";
+            vlan-id 200;
+            family inet {
+                inactive: filter {
+                    group 1;
+                }
+                address 172.16.243.169/30;
+            }
+        }
+    }
+    ae16 {
+        description "DT0Q10K01 AE16 To DT0N9L01 Po16";
+        flexible-vlan-tagging;
+        mtu 1554;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            link-speed 10g;
+            lacp {
+                active;
+                periodic fast;
+                fast-failover;
+            }
+        }
+        unit 103 {
+            description "DT0CPE03 MWAN 89.204.248.8/30";
+            vlan-id 103;
+            family inet {
+                address 89.204.248.9/30;
+            }
+        }
+        unit 107 {
+            description "DT0CPE05 MWAN 89.204.248.16/30";
+            vlan-id 107;
+            family inet {
+                address 89.204.248.17/30;
+            }
+        }
+        unit 112 {
+            description "DT0CPE02 MWAN 89.204.248.4/30";
+            vlan-id 112;
+            family inet {
+                address 89.204.248.5/30;
+            }
+        }
+        unit 625 {
+            description Sandbox_Internet-VRF_INTERNET_TRANSIT-172.16.244.0/28;
+            vlan-id 625;
+            family inet {
+                filter {
+                    input netflow-ipv4;
+                }
+                sampling {
+                    input;
+                }
+                address 172.16.244.1/28;
+            }
+        }
+        unit 626 {
+            description "DT0LNS01 Gig3";
+            vlan-id 626;
+            family inet {
+                address 172.16.244.17/30;
+            }
+            family iso;
+            family mpls;
+        }
+        unit 628 {
+            description "DT0LNS02 Gig3";
+            vlan-id 628;
+            family inet {
+                address 172.16.244.25/30;
+            }
+            family iso;
+            family mpls;
+        }
+        unit 632 {
+            description "DT0N9L01 Gig2";
+            vlan-id 632;
+            family inet {
+                address 172.16.244.44/31;
+            }
+        }
+        unit 700 {
+            description "Test BGP_GR dt0n9l01";
+            vlan-id 700;
+            family inet {
+                address 9.9.12.1/30;
+            }
+        }
+        unit 783 {
+            description "DT0CPE03 VRF_TB_MDS_INTERNET 172.16.90.8/30";
+            vlan-id 783;
+            family inet {
+                address 172.16.90.9/30;
+            }
+        }
+        unit 787 {
+            description "DT0CPE05 VRF_TB_MDS_INTERNET 172.16.90.16/30";
+            vlan-id 787;
+            family inet {
+                address 172.16.90.17/30;
+            }
+        }
+        unit 792 {
+            description "DT0CPE02 VRF_TB_MDS_INTERNET 172.16.90.4/30";
+            vlan-id 792;
+            family inet {
+                address 172.16.90.5/30;
+            }
+        }
+        unit 2060 {
+            encapsulation vlan-ccc;
+            vlan-id 2060;
+        }
+    }
+    ae20 {
+        vlan-tagging;
+        mtu 9192;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1111 {
+            description "RAN external interface - VR-untrust";
+            vlan-id 1111;
+            family inet {
+                address 172.16.244.97/30;
+            }
+        }
+        unit 2222 {
+            description "Core internal interface - VR-Core";
+            vlan-id 2222;
+            family inet {
+                address 172.16.244.105/30;
+            }
+        }
+    }
+    ae21 {
+        description "To NFVI MC-LAG";
+        vlan-tagging;
+        mtu 9192;
+        aggregated-ether-options {
+            link-speed 10g;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 900 {
+            description "To NFVI vPOD2 - DT0MME01 (MBB) - vFSB (oob) - 198.18.196.128/29";
+            vlan-id 900;
+            family inet {
+                mtu 1500;
+                address 198.18.196.130/29 {
+                    vrrp-group 24 {
+                        virtual-address 198.18.196.129;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$IRthrKx7dgaUcSjkq.QzSrlMxdY24";
+                    }
+                }
+            }
+        }
+        unit 901 {
+            description "To NFVI vPOD2 - DT0MME01 (MBB) - vLC-P1 (OM_CN) - 198.18.196.0/27";
+            vlan-id 901;
+            family inet {
+                mtu 1500;
+                address 198.18.196.1/27;
+            }
+        }
+        unit 902 {
+            description "To NFVI vPOD2 - DT0MME02 (IOT) - vFSB (oob) - 198.18.196.144/29";
+            vlan-id 902;
+            family inet {
+                mtu 1500;
+                address 198.18.196.146/29 {
+                    vrrp-group 27 {
+                        virtual-address 198.18.196.145;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$TF/A1IhKWx3nNVbwoan/9p1hlev";
+                    }
+                }
+            }
+        }
+        unit 903 {
+            description "To NFVI vPOD2 - DT0MME02 (IOT) - vLC-P1 (OM_CN) - 198.18.196.64/27";
+            vlan-id 903;
+            family inet {
+                mtu 1500;
+                address 198.18.196.65/27;
+            }
+        }
+        unit 904 {
+            description "To NFVI vPOD2 - DT0EPG01 (MBB) - vRP1-MGMT (oob) - 198.18.196.160/29";
+            vlan-id 904;
+            family inet {
+                mtu 1500;
+                address 198.18.196.162/29 {
+                    vrrp-group 32 {
+                        virtual-address 198.18.196.161;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$pxsOORcvMLVs4B1aGUD.m1REyvL-db";
+                    }
+                }
+            }
+        }
+        unit 905 {
+            description "To NFVI vPOD2 - DT0EPG02 (IOT) - vRP1-MGMT (oob) - 198.18.196.176/29";
+            vlan-id 905;
+            family inet {
+                mtu 1500;
+                address 198.18.196.178/29 {
+                    vrrp-group 34 {
+                        virtual-address 198.18.196.177;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$CiKwpBRleMNVYu0gaJZHk0B1hlMx7-";
+                    }
+                }
+            }
+        }
+        unit 906 {
+            description "To NFVI vPOD2 - DT0PCRF01 - External-OAM - 198.18.196.184/29";
+            vlan-id 906;
+            family inet {
+                mtu 1500;
+                address 198.18.196.186/29 {
+                    vrrp-group 35 {
+                        virtual-address 198.18.196.185;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$fQn9OBRlvLzFx-dVg4Fn6AORyre";
+                    }
+                }
+            }
+        }
+        unit 907 {
+            description "To NFVI vPOD2 - DT0DRA01 - oob - 198.18.196.192/29";
+            vlan-id 907;
+            family inet {
+                mtu 1500;
+                address 198.18.196.194/29 {
+                    vrrp-group 36 {
+                        virtual-address 198.18.196.193;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$I.UhrKx7dgaUcSjkq.QzSrlMxdY24";
+                    }
+                }
+            }
+        }
+        unit 909 {
+            description "To NFVI vPOD2 - vEMM - ONM_CH - 198.18.195.128/26";
+            vlan-id 909;
+            family inet {
+                mtu 1500;
+                address 198.18.195.130/26 {
+                    vrrp-group 37 {
+                        virtual-address 198.18.195.129;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$r0JK8xwsgUi.vMPTQz9CM8LNwgZGD";
+                    }
+                }
+            }
+        }
+        unit 910 {
+            description "To NFVI vPOD2 - vENM - 198.18.195.64/26";
+            vlan-id 910;
+            family inet {
+                mtu 1500;
+                address 198.18.195.66/26 {
+                    vrrp-group 23 {
+                        virtual-address 198.18.195.65;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$0dUp1hyW8xw2aIRZDjiPfRhclWxVbs";
+                    }
+                }
+            }
+        }
+        unit 911 {
+            description "To NFVI vPOD2 - DT0DRA01 - FEE1_VIPOAM - 198.18.196.216/29";
+            vlan-id 911;
+            family inet {
+                mtu 1500;
+                address 198.18.196.217/29;
+            }
+        }
+        unit 913 {
+            description "To NFVI vPOD2 - DT0EPG01_CP (MBB) - vSFO1-P1 (OM_CN) - 198.18.195.200/29";
+            vlan-id 913;
+            family inet {
+                mtu 1500;
+                address 198.18.195.201/29;
+            }
+        }
+        unit 914 {
+            description "To NFVI vPOD2 - DT0EPG01_CP (MBB) - vSFO2-P1 (OM_CN) - 198.18.195.208/29";
+            vlan-id 914;
+            family inet {
+                mtu 1500;
+                address 198.18.195.209/29;
+            }
+        }
+        unit 1102 {
+            description "To NFVI vPOD3 - BMI Backup and Restore - CommVault Backup OAM - 198.18.198.32/28";
+            vlan-id 1102;
+            family inet {
+                mtu 1500;
+                address 198.18.198.34/28 {
+                    vrrp-group 198 {
+                        virtual-address 198.18.198.33;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$1XlEyeXx-2oGhcDHkqTQcyrvX-sYg";
+                    }
+                }
+            }
+        }
+        unit 1103 {
+            description "To NFVI vPOD3 - BMI Backup and Restore - Media Backup -  198.18.198.48/28";
+            vlan-id 1103;
+            family inet {
+                mtu 1500;
+                address 198.18.198.50/28 {
+                    vrrp-group 12 {
+                        virtual-address 198.18.198.49;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$zZGynCpRESMLN6/dwsYJZ/CA0RSKvW";
+                    }
+                }
+            }
+        }
+        unit 1105 {
+            description "To NFVI vPOD4 - Software Defined Storage - nstor_nfs_share - 198.18.198.80/28";
+            vlan-id 1105;
+            family inet {
+                mtu 1500;
+                address 198.18.198.82/28 {
+                    vrrp-group 18 {
+                        virtual-address 198.18.198.81;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$d-wgaiH.znCsYt0OBcSYg4Zi.TQF";
+                    }
+                }
+            }
+        }
+        unit 1106 {
+            description "To NFVI vPOD2 - CEE-MGMT - cee_om_sp_1 - 198.18.198.96/28";
+            vlan-id 1106;
+            family inet {
+                mtu 1500;
+                address 198.18.198.98/28 {
+                    vrrp-group 19 {
+                        virtual-address 198.18.198.97;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$B1zRSlLXNY4ZEhUiHk5ThSyKLNws2";
+                    }
+                }
+            }
+        }
+        unit 1107 {
+            description "To NFVI vPOD2 - CEE-MGMT - sdnc_sig_sp_1 -  198.18.198.112/28";
+            vlan-id 1107;
+            family inet {
+                mtu 1500;
+                address 198.18.198.114/28;
+            }
+        }
+        unit 1108 {
+            description "To NFVI vPOD3 - BMI EO - ecm_oam_sp - 198.18.198.128/26";
+            vlan-id 1108;
+            family inet {
+                mtu 1500;
+                address 198.18.198.130/26 {
+                    vrrp-group 13 {
+                        virtual-address 198.18.198.129;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$cDMrv8dVsJUHleqPf5n6evMXdsoaZ";
+                    }
+                }
+            }
+        }
+        unit 1109 {
+            description "To NFVI vPOD3 - BMI EO - ecm_infra - 198.18.198.192/26";
+            vlan-id 1109;
+            family inet {
+                mtu 1500;
+                address 198.18.198.194/26 {
+                    vrrp-group 14 {
+                        virtual-address 198.18.198.193;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$qPQ3tpOcrvf5WXx7ws5Qz6tOEhS";
+                    }
+                }
+            }
+        }
+        unit 1110 {
+            description "To NFVI vPOD3 - ECCD Traffic - eccd_traffic_net - 198.18.199.0/27";
+            vlan-id 1110;
+            family inet {
+                mtu 1500;
+                address 198.18.199.2/27 {
+                    vrrp-group 21 {
+                        virtual-address 198.18.199.1;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$5z6CB1EeMXF37dVb4o36/tBErlK";
+                    }
+                }
+            }
+        }
+        unit 1111 {
+            description "To NFVI vPOD3 - ECCD OM - eccd_om_net - 198.18.199.32/28";
+            vlan-id 1111;
+            family inet {
+                mtu 1500;
+                address 198.18.199.34/28 {
+                    vrrp-group 20 {
+                        virtual-address 198.18.199.33;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$iqfQ9CpRcl.mKW8LdVmf5F9p1IE";
+                    }
+                }
+            }
+        }
+        unit 1112 {
+            description "To NFVI vPOD3 - BMI EO - ecm_access - 198.18.199.48/28";
+            vlan-id 1112;
+            family inet {
+                mtu 1500;
+                address 198.18.199.50/28 {
+                    vrrp-group 15 {
+                        virtual-address 198.18.199.49;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$uZrQBESMWXbYo1IJUDjmPIEhrMXdVw";
+                    }
+                }
+            }
+        }
+        unit 1113 {
+            description "To NFVI vPOD5 - CEE-MGMT (TestBed Development Enviornment) - cee_om_sp_2 - 198.18.199.64/28";
+            vlan-id 1113;
+            family inet {
+                mtu 1500;
+                address 198.18.199.66/28 {
+                    vrrp-group 16 {
+                        virtual-address 198.18.199.65;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$tUhh0IhKv8dwgOBoZGUq.BIRSK8N-V";
+                    }
+                }
+            }
+        }
+        unit 1114 {
+            description "To NFVI vPOD5 - CEE-MGMT (TestBed Development Enviornment) - sdnc_sig_sp_2 - 198.18.199.80/29";
+            vlan-id 1114;
+            family inet {
+                mtu 1500;
+                address 198.18.199.82/29;
+            }
+        }
+        unit 1115 {
+            description "To NFVI vPOD3 - EO SO (ECCD) - eccd_eo_so - 198.18.199.88/29";
+            vlan-id 1115;
+            family inet {
+                mtu 1500;
+                address 198.18.199.90/29 {
+                    vrrp-group 22 {
+                        virtual-address 198.18.199.89;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$Mb2LNV4oZkmTXxzn6/u0xN-w4ZiHq";
+                    }
+                }
+            }
+        }
+        unit 1116 {
+            description "To NFVI vPOD3 - BMI Backup and Restore - CommVault Backup Infra - 198.18.199.96/28";
+            vlan-id 1116;
+            family inet {
+                mtu 1500;
+                address 198.18.199.98/28 {
+                    vrrp-group 24 {
+                        virtual-address 198.18.199.97;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$nIgs9pOcSlL7VCAw2g4UDApu1clW8X";
+                    }
+                }
+            }
+        }
+        unit 1300 {
+            description "To NFVI vPOD6 - DEVMME01 (MBB) - vFSB (oob) - 198.18.196.136/29";
+            vlan-id 1300;
+            family inet {
+                mtu 1500;
+                address 198.18.196.138/29 {
+                    vrrp-group 25 {
+                        virtual-address 198.18.196.137;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$Lyr7VsJZDm5FN-n9CAB1-Vb2JDq.P";
+                    }
+                }
+            }
+        }
+        unit 1301 {
+            description "To NFVI vPOD6 - DEVMME01 (MBB) - vLC-P1 (OM_CN) - 198.18.196.32/27";
+            vlan-id 1301;
+            family inet {
+                mtu 1500;
+                address 198.18.196.33/27;
+            }
+        }
+        unit 1302 {
+            description "To NFVI vPOD6 - DEVMME02 (IOT) - vFSB (oob) - 198.18.196.152/29";
+            vlan-id 1302;
+            family inet {
+                mtu 1500;
+                address 198.18.196.154/29 {
+                    vrrp-group 26 {
+                        virtual-address 198.18.196.153;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$D.Hm56/A1EykqlvMWN-qmPQ6AOBI";
+                    }
+                }
+            }
+        }
+        unit 1303 {
+            description "To NFVI vPOD6 - DEVMME02 (IOT) - vLC-P1 (OM_CN) - 198.18.196.96/27";
+            vlan-id 1303;
+            family inet {
+                mtu 1500;
+                address 198.18.196.97/27;
+            }
+        }
+        unit 1304 {
+            description "To NFVI vPOD2 - DEVEPG01 (MBB) - vRP1-MGMT (oob) - 198.18.196.168/29";
+            vlan-id 1304;
+            family inet {
+                mtu 1500;
+                address 198.18.196.170/29 {
+                    vrrp-group 33 {
+                        virtual-address 198.18.196.169;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$NTVY4DjkTF/bwCpu0EhwY2aDkf5Q";
+                    }
+                }
+            }
+        }
+        unit 4089 {
+            description "To NFVI vPOD1 (Default) - SDI-M DCC - 198.18.198.16/28";
+            vlan-id 4089;
+            family inet {
+                mtu 1500;
+                address 198.18.198.18/28 {
+                    vrrp-group 10 {
+                        virtual-address 198.18.198.17;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$2XoGjPfQ9tOaJ1EhcKvJGUHPQ6/C";
+                    }
+                }
+            }
+        }
+    }
+    ae60 {
+        description "dt0e9214 ae60 - VODAFONE";
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            link-speed 10g;
+            lacp {
+                active;
+            }
+        }
+        unit 320 {
+            description "VRF_VOICE_MEDIA_EXT_DN2 to VODAFONE";
+            vlan-id 320;
+            family inet {
+                address 10.162.136.114/30;
+            }
+        }
+    }
+    em0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    em1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    irb {
+        unit 0 {
+            family inet;
+        }
+        unit 3123 {
+            description QFX_TEST_L2_LAG;
+            family inet {
+                address 172.16.243.1/28 {
+                    vrrp-group 123 {
+                        virtual-address 172.16.243.14;
+                        priority 200;
+                        preempt;
+                        accept-data;
+                        authentication-type md5;
+                        authentication-key "$9$2cgGjqmfznCP5z6AtOBhSr";
+                        track {
+                            priority-hold-time 30;
+                            route 172.16.239.61/32 routing-instance default priority-cost 150;
+                        }
+                    }
+                }
+            }
+        }
+        unit 3300 {
+            family inet;
+        }
+    }
+    lo0 {
+        apply-groups IF-LOOPBACK;
+        unit 0 {
+            description "*** ROUTER ID ***";
+            family inet {
+                filter {
+                    input IPF-IP4-COPP-IN;
+                }
+                address 172.16.239.60/32;
+            }
+            family iso {
+                address 49.1000.0000.0000.1001.00;
+            }
+            family inet6;
+        }
+        unit 112 {
+            family inet {
+                address 112.112.112.112/32;
+            }
+        }
+        unit 113 {
+            family inet {
+                address 113.113.113.113/32 {
+                    preferred;
+                }
+                address 117.117.117.117/32;
+            }
+        }
+        unit 198 {
+            family inet {
+                address 83.136.43.66/32;
+            }
+        }
+        unit 400 {
+            description "*** VRF_DCN ROUTER ID ***";
+            family inet {
+                address 198.18.163.254/32;
+            }
+        }
+        unit 747 {
+            family inet {
+                address 83.136.43.35/32;
+                address 172.16.243.23/32;
+            }
+        }
+        unit 780 {
+            family inet {
+                filter {
+                    input protect_re_VRF;
+                }
+                address 185.60.124.54/32;
+                address 83.136.43.63/32;
+            }
+        }
+        unit 3125 {
+            family inet {
+                address 1.1.1.1/32;
+            }
+        }
+        unit 3127 {
+            family inet {
+                address 11.11.11.11/32;
+            }
+        }
+        unit 8193 {
+            family inet {
+                address 169.254.31.201/32;
+            }
+        }
+    }
+}
+snmp {
+    name dt0q10k01;
+    description "Juniper QFX10008";
+    location Testbed-Blanch;
+    contact "janusz.gorbaczow@three.ie";
+    v3 {
+        usm {
+            local-engine {
+                user ArborSNMPv3User {
+                    authentication-sha {
+                        authentication-key "$9$hnrylMLX-bwgEcwYoaiHqmf536Ctuhyl1IwYgaUDmfTQ69BIErlM0ONdwsJZFn69uOylKv8XFn/tuOcSKM8x7V4oGiqmLxmfTQ9CKMWxVwY2aDHqg4ZjikPfyleKMXVb2gJGbwP5F39CLx7NdsZUjm5QDjHmTQ9CM8LXbsJGDiqmX7qmfT/9O1RSKM";
+                    }
+                    privacy-des {
+                        privacy-key "$9$U9Dmf3nCAuOZU.5zFAtBIESrvM8XVs2O1dbsYoaz3n6tuIRSyev1IrvMWx7s24ojHk.PF39wYQF/9OBxN-db2JZjkqfxNk.mPQz9ApuORlKM7dbrlGDHqf5QFn90BrevW87hcs24aUDmfT3Ap1IcrlMSylMW87NdbsgoGkqf5FnwYJDHkTQ69A0OR";
+                    }
+                }
+            }
+        }
+        vacm {
+            security-to-group {
+                security-model usm {
+                    security-name ArborSNMPv3User {
+                        group LabSNMPV3Group;
+                    }
+                }
+            }
+            access {
+                group LabSNMPV3Group {
+                    default-context-prefix {
+                        security-model usm {
+                            security-level privacy {
+                                read-view ArborSNMPv3View;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    engine-id {
+        use-default-ip-address;
+    }
+    view ArborSNMPv3View {
+        oid 1 include;
+    }
+    client-list list0 {
+        198.18.0.0/16;
+    }
+    community Testbed {
+        authorization read-only;
+        client-list-name list0;
+    }
+    community ArborC0mmun1ty {
+        view ArborSNMPv3View;
+        authorization read-only;
+        clients {
+            198.18.192.124/32;
+        }
+    }
+    trap-group Testbed-traps {
+        destination-port 161;
+        targets {
+            198.18.192.21;
+        }
+    }
+}
+forwarding-options {
+    storm-control-profiles default {
+        all;
+    }
+    sampling {
+        traceoptions {
+            file sample.log;
+            flag all;
+        }
+        instance {
+            S1 {
+                input {
+                    rate 10;
+                }
+                family inet {
+                    output {
+                        flow-server 198.18.192.124 {
+                            port 2055;
+                            routing-instance VRF_INTERNET_TRANSIT;
+                            version-ipfix {
+                                template {
+                                    ipv4;
+                                }
+                            }
+                        }
+                        inline-jflow {
+                            source-address 198.18.253.107;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    analyzer {
+        inactive: lars {
+            input {
+                ingress {
+                    interface et-0/0/19.0;
+                }
+                egress {
+                    interface et-0/0/19.0;
+                }
+            }
+            output {
+                routing-instance {
+                    VRF_DCN {
+                        ip-address 198.18.192.20;
+                    }
+                }
+            }
+        }
+    }
+    inactive: port-mirroring {
+        instance {
+            test {
+                family inet {
+                    output {
+                        routing-instance {
+                            VRF_DCN {
+                                ip-address 198.18.192.20;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+event-options {
+    policy REMOVE_VRF_DIRTY_DEFAULT_ROUTE {
+        events ping_probe_failed;
+        attributes-match {
+            ping_probe_failed.test-name matches TMS;
+        }
+        then {
+            change-configuration {
+                commands {
+                    "del routing-instances VRF_DIRTY routing-options static route 0.0.0.0/0";
+                }
+                user-name REnev;
+                commit-options {
+                    log "Removing default route within VRFI_DIRTY from event policy";
+                }
+            }
+        }
+    }
+}
+routing-options {
+    ppm {
+        traceoptions {
+            file qfx10k-1-ppm size 10m files 10;
+            flag all;
+        }
+    }
+    static {
+        route 192.168.0.0/16 {
+            next-hop 198.18.192.1;
+            retain;
+            no-readvertise;
+        }
+        route 10.248.0.0/13 {
+            next-hop 198.18.192.1;
+            retain;
+            no-readvertise;
+        }
+        route 198.18.0.0/16 {
+            next-hop 198.18.192.1;
+            retain;
+            no-readvertise;
+        }
+        route 198.18.192.20/30 next-hop 198.18.253.106;
+        route 198.18.192.124/32 next-hop 172.16.243.185;
+    }
+    autonomous-system 65333;
+}
+protocols {
+    mpls {
+        interface et-0/0/19.0;
+        interface et-0/0/20.0;
+        interface gr-0/0/0.10;
+        interface ae16.626;
+        interface ae16.628;
+        interface ae8.3000;
+    }
+    bgp {
+        group route_reflectors {
+            type internal;
+            local-address 172.16.239.60;
+            log-updown;
+            family inet-vpn {
+                unicast;
+                flow {
+                    loops 1;
+                    no-validate FS_RR_IN;
+                }
+            }
+            neighbor 172.16.239.61 {
+                description dt0q10k02;
+            }
+        }
+        group mpbgp_peer_client {
+            type internal;
+            local-address 172.16.239.60;
+            family inet-vpn {
+                unicast;
+            }
+            authentication-key "$9$hvYcK8bwgaGivWNbwgUDik.f5F";
+            cluster 0.0.0.3;
+            peer-as 65333;
+            neighbor 172.16.239.62 {
+                description DT0LNS01;
+            }
+            neighbor 172.16.239.63 {
+                description DT0LNS02;
+            }
+        }
+        group ACX_COLLECTOR_MP-iBGP {
+            type internal;
+            local-address 172.16.239.60;
+            family inet-vpn {
+                unicast;
+            }
+            authentication-key "$9$oXGkmzF/p0IDi/tu1yrWLx7NVwYgaGDbw";
+            neighbor 172.30.239.17 {
+                description dt0acx01;
+            }
+        }
+    }
+    isis {
+        traceoptions {
+            file dt0q10k01isis size 100m files 4;
+            flag general;
+            flag hello;
+            flag state;
+        }
+        lsp-lifetime 65535;
+        overload timeout 180;
+        level 1 disable;
+        level 2 {
+            authentication-key "$9$o6JUi.PTz3/evm5F6tpIRhSML";
+            authentication-type md5;
+            wide-metrics-only;
+        }
+        interface et-0/0/19.0 {
+            hello-padding disable;
+            point-to-point;
+            bfd-liveness-detection {
+                version automatic;
+                minimum-interval 300;
+                multiplier 3;
+            }
+            level 2 metric 1000;
+        }
+        interface et-0/0/20.0 {
+            hello-padding disable;
+            point-to-point;
+            bfd-liveness-detection {
+                version automatic;
+                minimum-interval 300;
+                multiplier 3;
+            }
+            level 2 metric 1000;
+        }
+        interface ae8.3000 {
+            hello-padding disable;
+            point-to-point;
+            bfd-liveness-detection {
+                version automatic;
+                minimum-interval 300;
+                multiplier 3;
+            }
+            level 2 {
+                metric 10000;
+                hello-authentication-key "$9$.5n90ORylMQFRSrv7Ns24oaGDikm5QUD";
+                hello-authentication-type simple;
+            }
+        }
+        interface ae16.626 {
+            hello-padding loose;
+            point-to-point;
+            bfd-liveness-detection {
+                version automatic;
+                minimum-interval 300;
+                multiplier 3;
+            }
+            level 2 {
+                metric 16000000;
+                hello-authentication-key "$9$2bgZjHkPQ39.PhrvLVb.P5Tz6";
+                hello-authentication-type simple;
+            }
+        }
+        interface ae16.628 {
+            hello-padding loose;
+            point-to-point;
+            bfd-liveness-detection {
+                version automatic;
+                minimum-interval 300;
+                multiplier 3;
+            }
+            level 2 {
+                metric 16000000;
+                hello-authentication-key "$9$F5sS3CuOBEyeWIEYoGif5IEcSrv";
+                hello-authentication-type simple;
+            }
+        }
+        interface lo0.0 {
+            level 2 {
+                passive;
+            }
+        }
+    }
+    ospf {
+        area 0.0.0.0 {
+            interface gr-0/0/0.10 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 1000;
+                    multiplier 3;
+                }
+            }
+        }
+    }
+    ldp {
+        interface gr-0/0/0.10;
+        interface et-0/0/19.0;
+        interface et-0/0/20.0;
+        interface ae8.3000;
+        interface ae16.626;
+        interface ae16.628;
+        interface lo0.0;
+        session 1.1.1.1 {
+            authentication-key "$9$xga-bsgoJiHmQFBEyrvMaZUD.fu0ISrK24aZ";
+        }
+        session-group 172.16.239.0/24 {
+            authentication-key "$9$cc8Sv8-ds4JDwY4ZUjPfFn/9Cp0BIhylu0";
+        }
+    }
+    l2circuit {
+        neighbor 172.16.239.61 {
+            interface xe-0/0/0:3.3128 {
+                virtual-circuit-id 10200;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
+            }
+        }
+        local-switching {
+            interface ae8.2060 {
+                end-interface {
+                    interface ae16.2060;
+                }
+                ignore-mtu-mismatch;
+            }
+        }
+    }
+    bfd {
+        traceoptions {
+            file qfx10k-1-bfd size 10m files 10;
+            flag all;
+        }
+    }
+    lldp {
+        interface all;
+    }
+    lldp-med {
+        interface all;
+    }
+    igmp-snooping {
+        vlan default;
+    }
+    inactive: sflow {
+        agent-id 198.18.253.107;
+        polling-interval 1;
+        sample-rate ingress 10;
+        source-ip 198.18.253.107;
+        collector 198.18.192.124 {
+            udp-port 6343;
+        }
+        interfaces xe-0/0/0:0.207 {
+            sample-rate ingress 10;
+        }
+        interfaces xe-0/0/0:1.207;
+        interfaces xe-0/0/0:2.400 {
+            sample-rate ingress 10;
+        }
+        interfaces xe-0/0/1:0.625 {
+            sample-rate ingress 10;
+        }
+    }
+}
+policy-options {
+    prefix-list IPV4-DNS-SERVERS {
+        apply-path "system name-server <*>";
+    }
+    prefix-list IPV4-TACACS-SERVERS {
+        apply-path "system tacplus-server <*>";
+    }
+    prefix-list IPV4-NTP-SERVERS {
+        apply-path "system ntp server <*>";
+    }
+    prefix-list IPV4-LOCAL-MULTICAST {
+        224.0.0.0/24;
+    }
+    prefix-list IPV4-BGP-NEIGHBOURS {
+        apply-path "protocols bgp group <*> neighbor <*>";
+    }
+    prefix-list IPV4-SNMP-MONITORING {
+        192.168.0.0/16;
+        198.18.0.0/16;
+    }
+    prefix-list IPV4-CORP-SUBNETS {
+        10.248.0.0/13;
+    }
+    prefix-list IPV4-DCN-SUBNETS {
+        192.168.0.0/16;
+        198.18.0.0/15;
+    }
+    prefix-list IPV4-VRF-BGP-NEIGHBOURS {
+        apply-path "routing-instances <*> protocols bgp group <*> neighbor <*>";
+    }
+    prefix-list MNS_TEST_PUBLIC {
+        172.17.0.0/20;
+    }
+    prefix-list PL_MNS_PUBLIC {
+        89.204.192.0/20;
+        89.204.240.0/20;
+        95.83.224.0/20;
+    }
+    prefix-list PL_SecGW_RAN {
+        172.30.239.48/32;
+        172.30.239.49/32;
+    }
+    prefix-list PL_GN_DN2_FROM_VDF {
+        213.233.140.120/29;
+        213.233.140.128/30;
+    }
+    prefix-list mbgp_addresses {
+        apply-path "routing-instances <*> protocols bgp group <*> neighbor <*>";
+    }
+    prefix-list PL_CORP_APN_DT0SAE81_LAC {
+        172.30.233.152/32;
+    }
+    prefix-list PL_CORP_APN_DT0LNS01_LNS {
+        83.136.43.65/32;
+    }
+    prefix-list PL_CORP_APN_DT0LNS02_LNS {
+        83.136.43.72/32;
+    }
+    prefix-list PL_VRF_MDS_INTERNET_PUBLIC {
+        95.83.229.128/25;
+    }
+    prefix-list PL_HT_DNS {
+        0.0.0.0/0;
+        10.247.248.0/27;
+        10.247.248.96/29;
+        172.16.241.182/31;
+        172.30.239.144/30;
+    }
+    prefix-list PL_FP_DNS {
+        0.0.0.0/0;
+        172.16.241.184/31;
+        172.30.239.136/30;
+        172.30.239.140/30;
+        185.60.124.40/29;
+    }
+    prefix-list PL_PS_DNS {
+        0.0.0.0/0;
+        172.16.241.186/31;
+        172.30.238.0/28;
+        172.30.238.48/28;
+        172.30.239.56/32;
+        172.30.239.57/32;
+        172.30.239.88/30;
+        172.30.239.92/30;
+        172.30.239.120/30;
+        172.30.239.124/30;
+        172.30.239.152/30;
+        172.30.239.156/30;
+    }
+    prefix-list PL_SAE_DNS {
+        83.136.43.32/30;
+        83.136.43.48/28;
+    }
+    prefix-list PL_BTS {
+        172.30.237.152/29;
+        172.30.237.153/32;
+        172.30.237.160/29;
+        172.30.237.161/32;
+        172.30.237.168/29;
+        172.30.237.169/32;
+        172.30.237.176/29;
+        172.30.237.177/32;
+        172.30.237.184/29;
+        172.30.237.185/32;
+    }
+    prefix-list PL-eNB-Transport {
+        172.30.237.144/29;
+    }
+    prefix-list PL_VRF_HT_ROI_TESTBED {
+        10.247.248.0/27;
+        10.247.248.96/29;
+    }
+    prefix-list PL_HIGHTOUCH {
+        10.247.248.0/27;
+        10.247.248.96/29;
+    }
+    prefix-list PL_DCN_DNS {
+        198.18.193.0/24;
+        198.18.195.64/26;
+        198.18.198.0/28;
+        198.18.198.16/28;
+        198.18.198.32/28;
+        198.18.198.48/28;
+        198.18.198.64/28;
+        198.18.198.80/28;
+        198.18.198.96/28;
+        198.18.198.112/28;
+        198.18.198.128/26;
+        198.18.198.192/26;
+        198.18.199.0/27;
+        198.18.199.32/28;
+        198.18.199.48/28;
+        198.18.199.64/28;
+        198.18.199.80/29;
+        198.18.199.88/29;
+    }
+    policy-statement BGP_VRF_HT_EXODUS_EXPORT {
+        term OSPF {
+            from {
+                protocol ospf;
+                prefix-list PL_VRF_HT_ROI_TESTBED;
+            }
+            then accept;
+        }
+        term DENY_ALL {
+            then reject;
+        }
+    }
+    policy-statement DEFAULT_EXPORT {
+        term DEFAULT_ONLY {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement DIRECT {
+        term 1 {
+            from protocol direct;
+            then accept;
+        }
+        term 2 {
+            from protocol ospf;
+            then accept;
+        }
+    }
+    policy-statement DROP_ALL {
+        then reject;
+    }
+    policy-statement EPC-PS {
+        term 1 {
+            from {
+                route-filter 172.30.233.168/29 orlonger;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement EXPORT_DNS {
+        term HT {
+            from {
+                prefix-list PL_HT_DNS;
+            }
+            then accept;
+        }
+        term PS {
+            from {
+                prefix-list PL_PS_DNS;
+            }
+            then accept;
+        }
+        term FP {
+            from {
+                prefix-list PL_FP_DNS;
+            }
+            then accept;
+        }
+        term DCN {
+            from {
+                prefix-list PL_DCN_DNS;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement EXPORT_TO_DT0EPG01_OAM {
+        then reject;
+    }
+    policy-statement FS_ARBOR_COLLECTOR_IN {
+        term FS_FILTERING_ROUTES {
+            from community FS_filter-routes;
+            then accept;
+        }
+        then accept;
+    }
+    policy-statement FS_RR_IN {
+        term 1 {
+            from {
+                rib VRF_INTERNET_TRANSIT.inetflow.0;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement FS_SERVER_IN {
+        term 1 {
+            from {
+                rib VRF_INTERNET_TRANSIT.inetflow.0;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement IMPORT_FROM_DT0EPG01_OAM {
+        term OAM_VIP {
+            from {
+                route-filter 198.18.196.246/32 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement ONLY_OUT_ACCEPT {
+        term ONLY_OUT_IN {
+            from {
+                protocol bgp;
+                community VRF_QFX_IN_OUT;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement ONLY_OUT_IN {
+        term SET_OUT_COM {
+            from {
+                protocol [ local direct ];
+                route-filter 112.112.112.112/32 exact;
+            }
+            then {
+                community add VRF_QFX_IN_OUT;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement OSPF-DIRECT_EXPORT {
+        term eNB-Transport {
+            from {
+                route-filter 172.30.237.144/29 exact;
+            }
+            then accept;
+        }
+    }
+    policy-statement OSPF_VRF_EPC_EXPORT {
+        term SAE {
+            from {
+                route-filter 83.136.44.32/32 exact;
+            }
+            then accept;
+        }
+        term eNB {
+            from {
+                protocol direct;
+                route-filter 172.30.237.144/29 exact;
+            }
+            then accept;
+        }
+        term MME {
+            from {
+                route-filter 172.30.233.160/29 exact;
+            }
+            then accept;
+        }
+        term DENY_ALL {
+            then reject;
+        }
+    }
+    policy-statement OUT {
+        term 1 {
+            from protocol direct;
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement PL-OSPF {
+        term 1 {
+            from protocol bgp;
+            then {
+                tag 1;
+                accept;
+            }
+        }
+    }
+    policy-statement PL_DT0Q10K01_GI_OUT {
+        term default_only {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement PL_DT0Q10K01_INTERNET_TRANSIT_OUT {
+        term GI_FP {
+            from {
+                route-filter 83.136.43.32/30 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term GI_HT {
+            from {
+                protocol static;
+                route-filter 83.136.43.48/28 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term GI_TEST_RANGE {
+            from {
+                route-filter 80.233.48.0/24 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term GI_GREEN {
+            from {
+                route-filter 185.60.124.40/29 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement POLICY_EXPORT_VRF_INTERNET_TRANSIT_EX {
+        term GI_POOLS {
+            from {
+                route-filter 83.136.43.32/30 exact;
+                route-filter 83.136.43.48/28 exact;
+                route-filter 80.233.48.0/23 upto /24;
+                route-filter 185.60.124.40/29 exact;
+            }
+            then accept;
+        }
+        term SANDBOX_INTERNET {
+            from {
+                route-filter 172.16.244.0/28 exact;
+            }
+            then accept;
+        }
+        term Arbor_Cloud_loopback {
+            from {
+                route-filter 185.60.124.54/32 exact;
+            }
+            then accept;
+        }
+        term MDS_PUBLIC {
+            from {
+                route-filter 95.83.229.128/25 exact;
+            }
+            then accept;
+        }
+        term DNS {
+            from {
+                route-filter 185.60.124.52/32 exact;
+                route-filter 172.16.241.180/31 orlonger;
+                route-filter 172.16.242.242/31 orlonger;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement POLICY_EXPORT_VRF_RAN_TO_RAN_9214 {
+        term BTS {
+            from {
+                prefix-list PL_BTS;
+            }
+            then accept;
+        }
+    }
+    policy-statement RAN_to_9214_EUTRAN {
+        term ENB_to_EUTRAN {
+            from {
+                route-filter 172.16.243.232/29 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RAN_to_9214_TOP_export {
+        term RAN_to_TOP_9214 {
+            from {
+                route-filter 172.30.237.144/29 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            from {
+                route-filter 172.30.237.184/29 exact;
+            }
+            then accept;
+        }
+        term 2G {
+            from {
+                route-filter 172.30.237.152/29 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RM_CORP_APN_DT0E9214_EXPORT {
+        term 10 {
+            from {
+                prefix-list PL_CORP_APN_DT0LNS01_LNS;
+            }
+            then accept;
+        }
+        term 20 {
+            from {
+                prefix-list PL_CORP_APN_DT0LNS02_LNS;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RM_CORP_APN_DT0E9214_IMPORT {
+        term 10 {
+            from {
+                prefix-list PL_CORP_APN_DT0SAE81_LAC;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RM_DT0E9214_DCN {
+        term ALL {
+            from protocol [ direct static bgp ];
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RM_DT0Q10K01_VRF_CLEAN_OUT {
+        term GI_FP {
+            from {
+                route-filter 83.136.43.32/30 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term GI_HT {
+            from {
+                protocol static;
+                route-filter 83.136.43.48/28 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term GI_TEST_RANGE {
+            from {
+                route-filter 80.233.48.0/24 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement RM_MDS_08193_001_IMPORT {
+        term MDS_SOO_001_LP100 {
+            from protocol bgp;
+            then {
+                local-preference 100;
+                community set MDS_SOO_001;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement RM_MDS_08193_002_IMPORT {
+        term MDS_SOO_002_LP300 {
+            from protocol bgp;
+            then {
+                local-preference 300;
+                community set MDS_SOO_002;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement RM_MDS_08193_003_IMPORT {
+        term MDS_SOO_003_LP300 {
+            from protocol bgp;
+            then {
+                local-preference 300;
+                community set MDS_SOO_003;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement RM_PREFIXES_FROM_VODAFONE {
+        term VRF_VOICE_MEDIA_DN2_OUT {
+            from {
+                protocol bgp;
+                prefix-list-filter PL_GN_DN2_FROM_VDF orlonger;
+            }
+            then {
+                community set VRF_SIP_DN2_OUT_STD;
+                accept;
+            }
+        }
+        term DEFAULT {
+            then reject;
+        }
+    }
+    policy-statement RM_VRF_GN_DN2_OUT_PREFIXES_FROM_DN2FWF03 {
+        term VRF_GN {
+            from {
+                protocol bgp;
+                community VRF_GN_STD;
+            }
+            then accept;
+        }
+        term DEFAULT {
+            then reject;
+        }
+    }
+    policy-statement RM_VRF_GN_DN2_OUT_PREFIXES_TO_DN2FWF03 {
+        term VRF_GN_DN2_OUT {
+            from {
+                protocol [ direct bgp ];
+                route-filter 112.112.112.112/32 exact;
+                route-filter 115.115.115.115/32 exact;
+            }
+            then {
+                community set VRF_GN_DN2_OUT_STD;
+                accept;
+            }
+        }
+        term DEFAULT {
+            then reject;
+        }
+    }
+    policy-statement RM_VRF_GN_PREFIXES_FROM_DN2FWF03 {
+        term VRF_GN_OUT {
+            from {
+                protocol bgp;
+                community VRF_GN_DN2_OUT_STD;
+            }
+            then accept;
+        }
+        term DEFAULT {
+            then reject;
+        }
+    }
+    policy-statement RM_VRF_GN_PREFIXES_TO_DN2FWF03 {
+        term VRF_GN {
+            from {
+                protocol [ direct bgp ];
+                route-filter 113.113.113.113/32 exact;
+                route-filter 114.114.114.114/32 exact;
+            }
+            then {
+                community set VRF_GN_STD;
+                accept;
+            }
+        }
+        term DEFAULT {
+            then reject;
+        }
+    }
+    policy-statement RM_VRF_INTERNET_TRANSIT_ARBOR_BH {
+        term RTBH_ROUTES {
+            from community rtbh-routes;
+            then {
+                next-hop reject;
+                accept;
+            }
+        }
+        inactive: term FS_FILTERING_ROUTES {
+            from community FS_filter-routes;
+            then accept;
+        }
+        term FS_DIVERSION_ROUTES {
+            from community FS_diversion-routes;
+            to instance VRF_DIRTY;
+            then accept;
+        }
+        then accept;
+    }
+    policy-statement RM_VRF_INTERNET_TRANSIT_TO_DN2M4804_VRF_INT_OUT {
+        term IOT_SUBNET {
+            from {
+                route-filter 80.233.112.0/27 exact;
+                route-filter 80.233.116.0/27 exact;
+            }
+            then accept;
+        }
+        term MNS_PUBLIC {
+            from {
+                protocol aggregate;
+                prefix-list PL_MNS_PUBLIC;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement RM_VRF_INTERNET_TRANSIT_TO_DN2M4805_VRF_INT_OUT {
+        term MNS_PUBLIC {
+            from {
+                protocol aggregate;
+                prefix-list PL_MNS_PUBLIC;
+            }
+            then accept;
+        }
+    }
+    policy-statement TB_OAM_MDS_EXPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                route-filter 95.83.229.160/27 exact;
+            }
+            then {
+                community set MDS_08193;
+                community add VRF_TB_OAM_MDS_EXT;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement TB_OAM_MDS_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community MDS_08193;
+                route-filter 169.254.31.0/24 orlonger;
+            }
+            then accept;
+        }
+        term 20 {
+            from {
+                protocol bgp;
+                community VRF_TB_OAM_MDS_EXT;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement TO_DT0E9214_VRF_TB_OAM_MDS_EXT {
+        term 10 {
+            from {
+                route-filter 169.254.31.0/24 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement TO_DT0S5801_EPC {
+        then reject;
+    }
+    policy-statement TO_DT0S5801_RAN {
+        then reject;
+    }
+    policy-statement VRF_CORP_APN_EXPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_65333_631;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_CORP_APN_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_65333_631;
+            }
+            then accept;
+        }
+        term 20 {
+            from {
+                protocol bgp;
+                community rt_65333_198;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_DIRTY_EXPORT {
+        term TMS_interface {
+            from {
+                protocol direct;
+                route-filter 172.16.243.160/30 exact;
+            }
+            then {
+                community add rt_13280_780;
+                community add rt_65333_500;
+                accept;
+            }
+        }
+        term default_route {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                community add rt_65333_500;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement VRF_DIRTY_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_65333_500;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_EPC_IMPORT {
+        term 1 {
+            from {
+                community VRF_RAN;
+                prefix-list PL-eNB-Transport;
+            }
+            then accept;
+        }
+        term 2 {
+            from community VRF_EPC;
+            then accept;
+        }
+    }
+    policy-statement VRF_GI_to_HT {
+        term OSPF {
+            from {
+                protocol ospf;
+                prefix-list PL_HIGHTOUCH;
+            }
+            then accept;
+        }
+        term DENY_ALL {
+            then reject;
+        }
+    }
+    policy-statement VRF_INTERNET_TRANSIT_DNS {
+        term ADVERTISE_SAE {
+            from {
+                prefix-list PL_SAE_DNS;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_INTERNET_TRANSIT_EXPORT {
+        term 10 {
+            from protocol bgp;
+            then {
+                community add rt_13280_780;
+                accept;
+            }
+        }
+        term 20 {
+            from protocol [ direct static ];
+            then {
+                community add rt_13280_780;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement VRF_INTERNET_TRANSIT_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_13280_780;
+            }
+            then accept;
+        }
+        term MDS_PUBLIC {
+            from {
+                protocol bgp;
+                community rt_13280_930;
+                prefix-list PL_VRF_MDS_INTERNET_PUBLIC;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_INTERNET_TRANSIT_TEST_EXPORT {
+        term 10 {
+            from protocol bgp;
+            then {
+                community add rt_13280_1780;
+                accept;
+            }
+        }
+        term 20 {
+            from protocol [ direct static ];
+            then {
+                community add rt_13280_1780;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement VRF_INTERNET_TRANSIT_TEST_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_13280_1780;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement VRF_MDS_INTERNET_EXPORT {
+        term MDS_PUBLIC {
+            from {
+                protocol aggregate;
+                prefix-list PL_VRF_MDS_INTERNET_PUBLIC;
+            }
+            then {
+                community add rt_13280_930;
+                accept;
+            }
+        }
+        term VRF_MDS_INTERNET_EXPORT_BGP {
+            from protocol bgp;
+            then {
+                community add rt_13280_930;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement VRF_MDS_INTERNET_IMPORT {
+        term 10 {
+            from {
+                protocol bgp;
+                community rt_13280_930;
+            }
+            then accept;
+        }
+        term VRF_INTERNET_TRANSIT_IMPORT {
+            from {
+                protocol bgp;
+                community rt_13280_780;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    community FS_diversion-routes members redirect:65333:500;
+    community FS_filter-routes members 65333:8888;
+    community MDS_08193 members target:4200008193L:100;
+    community MDS_SOO_001 members origin:65000:1;
+    community MDS_SOO_002 members origin:65000:2;
+    community MDS_SOO_003 members origin:65000:3;
+    community SOO_08193 members origin:08193:1;
+    community VRF_EPC members target:999:999;
+    community VRF_GN_DN2_OUT_STD members 13280:756;
+    community VRF_GN_STD members 13280:755;
+    community VRF_QFX_IN_OUT members 65333:41;
+    community VRF_RAN members target:65333:735;
+    community VRF_SIP_DN2_OUT_STD members 13280:788;
+    community VRF_TB_OAM_MDS_EXT members target:65333:199;
+    community rt_13280_1780 members target:13280:1780;
+    community rt_13280_780 members target:13280:780;
+    community rt_13280_930 members target:13280:930;
+    community rt_65333_198 members target:65333:198;
+    community rt_65333_500 members target:65333:500;
+    community rt_65333_631 members target:65333:631;
+    community rtbh-routes members 65333:4444;
+}
+firewall {
+    family inet {
+        filter IPF-IP4-COPP-VRF-IN {
+            term ICMP-ECHO {
+                from {
+                    protocol icmp;
+                    icmp-type echo-request;
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term ICMP {
+                from {
+                    protocol icmp;
+                    icmp-type [ echo-reply unreachable time-exceeded ];
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term TRACEROUTE {
+                from {
+                    protocol udp;
+                    destination-port 33434-33600;
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term OSPF {
+                from {
+                    destination-prefix-list {
+                        IPV4-LOCAL-MULTICAST;
+                    }
+                    protocol ospf;
+                }
+                then accept;
+            }
+            term OSPF-P2P {
+                from {
+                    protocol ospf;
+                }
+                then accept;
+            }
+            term VRRP {
+                from {
+                    destination-prefix-list {
+                        IPV4-LOCAL-MULTICAST;
+                    }
+                    protocol [ vrrp ah ];
+                }
+                then accept;
+            }
+            term BGP {
+                from {
+                    source-prefix-list {
+                        IPV4-BGP-NEIGHBOURS;
+                        IPV4-VRF-BGP-NEIGHBOURS;
+                    }
+                    protocol tcp;
+                    port bgp;
+                }
+                then accept;
+            }
+            term TCP-RETURN {
+                from {
+                    protocol tcp;
+                    tcp-established;
+                }
+                then accept;
+            }
+            term BFD {
+                from {
+                    protocol udp;
+                    destination-port [ 3784 4784 ];
+                }
+                then accept;
+            }
+            term DENY-ALL {
+                then {
+                    count COPP-DENY-ALL;
+                    log;
+                    discard;
+                }
+            }
+        }
+        filter IPF-IP4-COPP-IN {
+            term SSH {
+                from {
+                    source-prefix-list {
+                        IPV4-CORP-SUBNETS;
+                        IPV4-DCN-SUBNETS;
+                    }
+                    protocol tcp;
+                    destination-port ssh;
+                }
+                then accept;
+            }
+            term TACACS {
+                from {
+                    source-prefix-list {
+                        IPV4-TACACS-SERVERS;
+                    }
+                    protocol tcp;
+                    source-port tacacs;
+                }
+                then accept;
+            }
+            term NTP {
+                from {
+                    source-prefix-list {
+                        IPV4-NTP-SERVERS;
+                    }
+                    protocol [ tcp udp ];
+                    port ntp;
+                }
+                then accept;
+            }
+            term ICMP-ECHO {
+                from {
+                    protocol icmp;
+                    icmp-type echo-request;
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term ICMP {
+                from {
+                    protocol icmp;
+                    icmp-type [ echo-reply unreachable time-exceeded ];
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term TRACEROUTE {
+                from {
+                    protocol udp;
+                    destination-port 33434-33600;
+                }
+                then {
+                    policer 5M;
+                    accept;
+                }
+            }
+            term SNMP {
+                from {
+                    source-prefix-list {
+                        IPV4-SNMP-MONITORING;
+                    }
+                }
+                then accept;
+            }
+            term DNS {
+                from {
+                    source-prefix-list {
+                        IPV4-DNS-SERVERS;
+                    }
+                    source-port domain;
+                }
+                then accept;
+            }
+            term OSPF {
+                from {
+                    destination-prefix-list {
+                        IPV4-LOCAL-MULTICAST;
+                    }
+                    protocol ospf;
+                }
+                then accept;
+            }
+            term OSPF-P2P {
+                from {
+                    protocol ospf;
+                }
+                then accept;
+            }
+            term VRRP {
+                from {
+                    destination-prefix-list {
+                        IPV4-LOCAL-MULTICAST;
+                    }
+                    protocol [ vrrp ah ];
+                }
+                then accept;
+            }
+            term LDP {
+                from {
+                    protocol [ tcp udp ];
+                    port 646;
+                }
+                then {
+                    policer 5M;
+                    count LDP;
+                    accept;
+                }
+            }
+            term BFD {
+                from {
+                    protocol udp;
+                    destination-port 3784;
+                }
+                then {
+                    count BFD;
+                    accept;
+                }
+            }
+            term BGP {
+                from {
+                    source-prefix-list {
+                        IPV4-BGP-NEIGHBOURS;
+                        IPV4-VRF-BGP-NEIGHBOURS;
+                    }
+                    protocol tcp;
+                    port bgp;
+                }
+                then accept;
+            }
+            term FTP_BACKUP {
+                from {
+                    source-address {
+                        198.18.255.155/32;
+                    }
+                    port [ ftp ftp-data ];
+                }
+                then accept;
+            }
+            term DENY-ALL {
+                then {
+                    count DENY_COPP;
+                    syslog;
+                    discard;
+                }
+            }
+        }
+        filter INTERNET_TRANSIT_OUT {
+            term MNS_OUT {
+                from {
+                    source-prefix-list {
+                        MNS_TEST_PUBLIC;
+                    }
+                }
+                then {
+                    policer MNS_INT_POLICER;
+                    count MNS_OUT;
+                }
+            }
+            term DEFAULT {
+                then accept;
+            }
+        }
+        filter INTERNET_TRANSIT_IN {
+            term MNS_IN {
+                from {
+                    destination-prefix-list {
+                        MNS_TEST_PUBLIC;
+                    }
+                }
+                then {
+                    policer MNS_INT_POLICER;
+                    count MNS_IN;
+                }
+            }
+            term DEFAULT {
+                then accept;
+            }
+        }
+        filter netflow-ipv4 {
+            term capture-flow {
+                then {
+                    count JFLOW;
+                    sample;
+                    accept;
+                }
+            }
+        }
+        filter ATAC {
+            interface-specific;
+            term 1 {
+                from {
+                    destination-address {
+                        80.233.48.1/32;
+                    }
+                }
+                then {
+                    count count-icmp;
+                    log;
+                }
+            }
+            term 2 {
+                then accept;
+            }
+        }
+        inactive: filter DNS_NX_DOMAIN_TO_ARBOR {
+            term MIRROR {
+                then {
+                    port-mirror;
+                    accept;
+                }
+            }
+        }
+        filter ff-test-l3 {
+            term BFD {
+                from {
+                    protocol tcp;
+                    port 22;
+                }
+                then {
+                    count bfd;
+                    inactive: port-mirror-instance test;
+                    accept;
+                }
+            }
+            term DEFAULT-ACCEPT-ALL {
+                then accept;
+            }
+        }
+    }
+    policer 5M {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 10k;
+        }
+        then discard;
+    }
+    policer MNS_INT_POLICER {
+        if-exceeding {
+            bandwidth-limit 100m;
+            burst-size-limit 250k;
+        }
+        then discard;
+    }
+    policer tcp_connection_policer {
+        if-exceeding {
+            bandwidth-limit 500k;
+            burst-size-limit 15k;
+        }
+        then discard;
+    }
+    policer igp_policer {
+        if-exceeding {
+            bandwidth-limit 4m;
+            burst-size-limit 400k;
+        }
+        then discard;
+    }
+    policer bgp_policer {
+        if-exceeding {
+            bandwidth-limit 4m;
+            burst-size-limit 400k;
+        }
+        then discard;
+    }
+    policer monitoring {
+        if-exceeding {
+            bandwidth-limit 9m;
+            burst-size-limit 900k;
+        }
+        then discard;
+    }
+    policer management_policer {
+        if-exceeding {
+            bandwidth-limit 6500000;
+            burst-size-limit 65k;
+        }
+        then discard;
+    }
+    policer default {
+        if-exceeding {
+            bandwidth-limit 600k;
+            burst-size-limit 6k;
+        }
+        then discard;
+    }
+    filter protect_re_VRF {
+        term tcp_dos_protection {
+            from {
+                protocol tcp;
+                tcp-flags "(syn & !ack) | fin | rst ";
+            }
+            then {
+                policer tcp_connection_policer;
+                count tcp_syn;
+                next term;
+            }
+        }
+        term ospf {
+            from {
+                protocol ospf;
+            }
+            then {
+                policer igp_policer;
+                count ospf;
+                accept;
+            }
+        }
+        term bgp {
+            from {
+                source-prefix-list {
+                    mbgp_addresses;
+                }
+                protocol tcp;
+                port bgp;
+            }
+            then {
+                policer bgp_policer;
+                count bgp;
+                accept;
+            }
+        }
+        term traceroute {
+            from {
+                protocol udp;
+                destination-port 33434-33523;
+            }
+            then {
+                policer monitoring;
+                count traceroute;
+                accept;
+            }
+        }
+        term icmp {
+            from {
+                protocol icmp;
+                icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+            }
+            then {
+                policer monitoring;
+                count icmp;
+                accept;
+            }
+        }
+        term bfd {
+            from {
+                protocol udp;
+                destination-port [ 3784 4784 ];
+            }
+            then {
+                count bfd;
+                accept;
+            }
+        }
+        term dhcp-client {
+            from {
+                source-address {
+                    0.0.0.0/32;
+                }
+                destination-address {
+                    255.255.255.255/32;
+                }
+                protocol udp;
+                source-port 68;
+                destination-port 67;
+            }
+            then {
+                policer management_policer;
+                count dhcp-client;
+                accept;
+            }
+        }
+        term dhcp-server {
+            from {
+                protocol udp;
+                source-port [ 67 68 ];
+                destination-port [ 67 68 ];
+            }
+            then {
+                policer management_policer;
+                count dhcp-server;
+                accept;
+            }
+        }
+        term default {
+            then {
+                policer default;
+                count default;
+                log;
+                discard;
+            }
+        }
+    }
+    traceoptions {
+        file firewall.log size 10m files 8;
+        flag all;
+    }
+}
+routing-instances {
+    BGP_GR_TEST {
+        instance-type vrf;
+        interface ae16.700;
+        route-distinguisher 12:12;
+        vrf-target target:12:12;
+        protocols {
+            bgp {
+                group GR_TEST {
+                    type external;
+                    inactive: traceoptions {
+                        file BGP_GR size 10m;
+                        flag all;
+                    }
+                    local-as 65420;
+                    neighbor 9.9.12.2 {
+                        peer-as 65000;
+                        bfd-liveness-detection {
+                            minimum-interval 300;
+                            minimum-receive-interval 300;
+                            multiplier 3;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    CORP_APN {
+        instance-type vrf;
+        interface ae8.631;
+        route-distinguisher 172.16.239.60:631;
+        vrf-import VRF_CORP_APN_IMPORT;
+        vrf-export VRF_CORP_APN_EXPORT;
+        vrf-target target:65333:631;
+        vrf-table-label;
+        routing-options {
+            auto-export;
+        }
+        protocols {
+            bgp {
+                log-updown;
+                group CORP_APN {
+                    type external;
+                    import RM_CORP_APN_DT0E9214_IMPORT;
+                    authentication-key "$9$lWVMWXJZjP5FJGkPQzCAWLxNwY24aJUj36t0IRrl";
+                    export RM_CORP_APN_DT0E9214_EXPORT;
+                    peer-as 65444;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.244.42 {
+                        description "CORP_APN DT0E9214";
+                    }
+                }
+            }
+        }
+    }
+    FPC2 {
+        instance-type virtual-router;
+        interface ge-2/0/0.0;
+    }
+    FPC3 {
+        instance-type virtual-router;
+        interface ge-3/0/0.0;
+    }
+    L3VPN {
+        instance-type virtual-router;
+        interface ae8.3125;
+        interface lo0.3125;
+        routing-options {
+            static {
+                route 0.0.0.0/0 {
+                    discard;
+                    no-install;
+                }
+            }
+            router-id 1.1.1.1;
+            autonomous-system 1;
+        }
+        protocols {
+            ospf {
+                export PL-OSPF;
+                area 0.0.0.10 {
+                    area-range 10.1.0.0/21;
+                    interface ae8.3125 {
+                        interface-type p2p;
+                        authentication {
+                            md5 10 key "$9$.mznCtu1Eyp01hrlMW7-V";
+                        }
+                    }
+                }
+                area 0.0.0.0 {
+                    interface lo0.3125 {
+                        passive;
+                    }
+                }
+            }
+        }
+    }
+    L3VPN_MPLS {
+        instance-type vrf;
+        interface ae8.3127;
+        interface lo0.3127;
+        route-distinguisher 65333:333;
+        vrf-target target:65333:333;
+        vrf-table-label;
+        routing-options {
+            router-id 11.11.11.11;
+            autonomous-system 65333;
+        }
+        protocols {
+            ospf {
+                export PL-OSPF;
+                area 0.0.0.0 {
+                    interface lo0.3127 {
+                        passive;
+                    }
+                }
+                area 0.0.0.10 {
+                    interface ae8.3127 {
+                        interface-type p2p;
+                        authentication {
+                            md5 10 key "$9$7gNsgJGDkmTUjkPQz6/p0B";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    MDS_08193 {
+        instance-type vrf;
+        interface ae16.103;
+        interface ae16.107;
+        interface ae16.112;
+        interface lo0.8193;
+        route-distinguisher 172.16.239.60:8193;
+        vrf-target target:4200008193L:100;
+        vrf-table-label;
+        routing-options {
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group MWAN {
+                    type external;
+                    authentication-key "$9$Nabw2mPQ9A0mf39puEhwYgoUjik.m5QO1crvM7N";
+                    peer-as 4200008193;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    as-override;
+                    neighbor 89.204.248.6 {
+                        description "MDS-08193 DT0CPE02 MWAN";
+                        import RM_MDS_08193_001_IMPORT;
+                    }
+                    neighbor 89.204.248.10 {
+                        description "MDS-08193 DT0CPE03 MWAN";
+                        import RM_MDS_08193_002_IMPORT;
+                    }
+                    neighbor 89.204.248.18 {
+                        description "MDS-08193 DT0CPE05 MWAN";
+                        import RM_MDS_08193_003_IMPORT;
+                    }
+                }
+            }
+        }
+    }
+    MDS_CS {
+        instance-type vrf;
+        interface ae16.632;
+        interface lo0.198;
+        route-distinguisher 172.16.239.60:198;
+        vrf-target target:65333:198;
+        vrf-table-label;
+        routing-options {
+            auto-export;
+        }
+        protocols {
+            bgp {
+                log-updown;
+                group MDS_CS {
+                    type external;
+                    authentication-key "$9$g-JZDn6A1RSn/u1hcvMZUjHP5Tz3n9AylWX-d2g";
+                    peer-as 65000;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.244.45 {
+                        description "MDS_CS DT0N9L01";
+                    }
+                }
+            }
+        }
+    }
+    QFX_TEST {
+        instance-type virtual-router;
+        interface irb.3123;
+    }
+    VRF_CLEAN {
+        instance-type vrf;
+        interface ae12.1001;
+        interface ae15.200;
+        route-distinguisher 172.16.239.60:748;
+        vrf-target target:65333:748;
+        vrf-table-label;
+        protocols {
+            bgp {
+                group DT0Q10K01_VRF_GI_CLEAN {
+                    type internal;
+                    export DROP_ALL;
+                    neighbor 172.16.243.210 {
+                        description "DT0Q10K01 VRF_INTERNET_TRANSIT";
+                    }
+                }
+            }
+        }
+    }
+    VRF_DCN {
+        instance-type vrf;
+        interface ge-1/0/5.1052;
+        interface ae8.400;
+        interface ae21.900;
+        interface ae21.901;
+        interface ae21.902;
+        interface ae21.903;
+        interface ae21.904;
+        interface ae21.905;
+        interface ae21.906;
+        interface ae21.907;
+        interface ae21.909;
+        interface ae21.910;
+        interface ae21.911;
+        interface ae21.913;
+        interface ae21.914;
+        interface ae21.1102;
+        interface ae21.1103;
+        interface ae21.1105;
+        interface ae21.1106;
+        interface ae21.1107;
+        interface ae21.1108;
+        interface ae21.1109;
+        interface ae21.1110;
+        interface ae21.1111;
+        interface ae21.1112;
+        interface ae21.1113;
+        interface ae21.1114;
+        interface ae21.1115;
+        interface ae21.1116;
+        interface ae21.1300;
+        interface ae21.1301;
+        interface ae21.1302;
+        interface ae21.1303;
+        interface ae21.1304;
+        interface ae21.4089;
+        interface lo0.400;
+        route-distinguisher 172.16.239.60:400;
+        vrf-target target:65333:400;
+        vrf-table-label;
+        routing-options {
+            static {
+                route 198.18.196.247/32 {
+                    next-hop [ 198.18.196.188 198.18.196.189 ];
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                }
+                route 198.18.196.253/32 {
+                    next-hop [ 198.18.195.203 198.18.195.211 ];
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                }
+                route 198.18.196.240/31 {
+                    next-hop [ 198.18.196.3 198.18.196.4 198.18.196.5 198.18.196.6 198.18.196.7 198.18.196.8 198.18.196.9 198.18.196.10 198.18.196.11 ];
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                }
+                route 198.18.196.242/32 {
+                    next-hop [ 198.18.196.3 198.18.196.4 198.18.196.5 198.18.196.6 198.18.196.7 198.18.196.8 198.18.196.9 198.18.196.10 198.18.196.11 ];
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                }
+                route 198.18.196.249/32 {
+                    next-hop 198.18.196.218;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                }
+            }
+            router-id 198.18.163.254;
+        }
+        protocols {
+            bgp {
+                group dt0e9214 {
+                    neighbor 198.18.253.106 {
+                        export RM_DT0E9214_DCN;
+                        peer-as 65444;
+                    }
+                }
+                group DNS_EFFICIENT_IP {
+                    export EXPORT_DNS;
+                    peer-as 64500;
+                    neighbor 172.16.242.82;
+                }
+                group DT0EPG01_OM_CN {
+                    multihop {
+                        ttl 2;
+                    }
+                    local-address 198.18.163.254;
+                    import IMPORT_FROM_DT0EPG01_OAM;
+                    export EXPORT_TO_DT0EPG01_OAM;
+                    peer-as 64756;
+                    local-as 64786;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 198.18.196.253;
+                }
+            }
+        }
+    }
+    VRF_DIRTY {
+        instance-type vrf;
+        route-distinguisher 172.16.239.60:500;
+        vrf-import VRF_DIRTY_IMPORT;
+        vrf-export VRF_DIRTY_EXPORT;
+        inactive: vrf-target target:65333:500;
+        vrf-table-label;
+        routing-options {
+            static {
+                defaults {
+                    resolve;
+                }
+            }
+            auto-export {
+                traceoptions {
+                    file AUTO_EXPORT_DEBUG;
+                }
+            }
+        }
+    }
+    VRF_EPC {
+        instance-type vrf;
+        interface xe-0/0/2:1.0;
+        interface ae8.638;
+        interface ae8.639;
+        interface ae20.2222;
+        route-distinguisher 172.16.239.60:999;
+        vrf-import VRF_EPC_IMPORT;
+        vrf-target target:65333:999;
+        vrf-table-label;
+        protocols {
+            bgp {
+                group dt0e9214 {
+                    export DIRECT;
+                    local-as 65333;
+                    neighbor 172.16.244.75 {
+                        peer-as 65444;
+                    }
+                }
+                group PS-dt0e9214 {
+                    export EPC-PS;
+                    local-as 65333;
+                    neighbor 172.16.244.77 {
+                        peer-as 65444;
+                    }
+                }
+                group DT0S5801 {
+                    export TO_DT0S5801_EPC;
+                    peer-as 65430;
+                    bfd-liveness-detection {
+                        minimum-interval 150;
+                    }
+                    neighbor 172.16.244.106;
+                }
+            }
+            ospf {
+                export OSPF_VRF_EPC_EXPORT;
+                area 9.0.0.3 {
+                    interface xe-0/0/2:1.0 {
+                        interface-type p2p;
+                        metric 100;
+                        authentication {
+                            md5 1 key "$9$fQz69Cu1EyP5z69AIRvWLX-w4oG";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VRF_GI {
+        instance-type vrf;
+        interface ge-1/0/2.0;
+        interface ae8.206;
+        interface ae8.640;
+        interface ae103.101;
+        interface ae103.111;
+        interface ae11.1000;
+        interface ae11.1001;
+        interface lo0.747;
+        route-distinguisher 172.16.239.60:747;
+        vrf-target target:65333:747;
+        vrf-table-label;
+        routing-options {
+            static {
+                route 83.136.43.48/28 next-hop 172.16.243.153;
+            }
+        }
+        protocols {
+            bgp {
+                group DT0E9214 {
+                    type external;
+                    peer-as 65222;
+                    neighbor 172.16.243.149 {
+                        description "DT0E9214 VRF_GI";
+                    }
+                }
+                group DT0Q10K01_INTERNET_TRANSIT {
+                    type internal;
+                    export PL_DT0Q10K01_INTERNET_TRANSIT_OUT;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.243.153 {
+                        description "DT0Q10K01 VRF_INTERNET_TRANSIT";
+                    }
+                }
+                group DT0Q10K01_VRF_CLEAN {
+                    type internal;
+                    export RM_DT0Q10K01_VRF_CLEAN_OUT;
+                    neighbor 172.16.243.211 {
+                        description "DT0Q10K01 VRF_CLEAN";
+                    }
+                }
+                group HT-dt0e9214 {
+                    export VRF_GI_to_HT;
+                    local-as 65333;
+                    neighbor 172.16.244.78 {
+                        peer-as 65444;
+                    }
+                }
+                group DNS_EFFICIENT_IP {
+                    export EXPORT_DNS;
+                    peer-as 64500;
+                    neighbor 172.16.242.90;
+                }
+            }
+            ospf {
+                export DEFAULT_EXPORT;
+                area 0.0.0.90 {
+                    interface ae103.101 {
+                        interface-type p2p;
+                        metric 10;
+                        authentication {
+                            md5 10 key "$9$8q0x7Vws4ZDkWL7VwYGUfTzF/tB1h";
+                        }
+                    }
+                    interface ae103.111 {
+                        interface-type p2p;
+                        metric 10;
+                        authentication {
+                            md5 10 key "$9$H.mTzF/t0IikmTz3puSreK87bwg";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VRF_INTERNET_TRANSIT {
+        instance-type vrf;
+        interface gr-0/0/0.0;
+        interface gr-0/0/0.100;
+        interface ge-1/0/5.1056;
+        interface ge-1/0/5.1060;
+        interface ae6.0;
+        interface ae8.207;
+        interface ae8.610;
+        interface ae12.1000;
+        interface ae15.100;
+        interface ae16.625;
+        interface lo0.780;
+        route-distinguisher 172.16.239.60:780;
+        vrf-import VRF_INTERNET_TRANSIT_IMPORT;
+        vrf-export VRF_INTERNET_TRANSIT_EXPORT;
+        vrf-table-label;
+        routing-options {
+            static {
+                route 198.18.192.124/32 next-hop 172.16.243.185;
+                route 198.18.192.123/32 next-hop 172.16.243.185;
+                route 192.0.2.2/32 next-hop 172.16.243.162;
+                route 185.60.124.55/32 next-hop 172.17.31.5;
+                route 185.60.124.52/32 next-hop 172.16.241.181;
+            }
+            flow {
+                interface-group 4 exclude;
+                term-order standard;
+            }
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group DT0SP7K1 {
+                    type external;
+                    description "BGP FlowSpec and IPv4 session with Arbor collector";
+                    multihop {
+                        ttl 5;
+                    }
+                    local-address 172.16.243.186;
+                    hold-time 180;
+                    inactive: import RM_VRF_INTERNET_TRANSIT_ARBOR_BH;
+                    family inet {
+                        unicast;
+                        flow {
+                            no-validate FS_ARBOR_COLLECTOR_IN;
+                        }
+                    }
+                    peer-as 64999;
+                    neighbor 198.18.192.124 {
+                        authentication-key "$9$c7arlvN-bw2oO1X-db2gQFn69A";
+                    }
+                }
+                group DT0Q10K01_GI {
+                    type internal;
+                    export PL_DT0Q10K01_GI_OUT;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.243.152 {
+                        description "DT0Q10K01 VRF_INTERNET_TRANSIT";
+                    }
+                }
+                group DT0E9214 {
+                    type external;
+                    preference 140;
+                    export POLICY_EXPORT_VRF_INTERNET_TRANSIT_EX;
+                    peer-as 65444;
+                    neighbor 172.16.243.157 {
+                        description "DT0E9214 VRF_TB_INT_IN";
+                    }
+                }
+                group DT0HD1K1 {
+                    type external;
+                    description "BGP IPv4 session with Arbor TMS";
+                    multihop {
+                        ttl 5;
+                    }
+                    local-address 172.16.243.186;
+                    hold-time 180;
+                    family inet {
+                        unicast;
+                    }
+                    export DROP_ALL;
+                    peer-as 64999;
+                    neighbor 198.18.192.123 {
+                        authentication-key "$9$c7arlvN-bw2oO1X-db2gQFn69A";
+                    }
+                }
+                group DNS_IP_EFFICIENCY {
+                    type external;
+                    export VRF_INTERNET_TRANSIT_DNS;
+                    peer-as 64500;
+                    neighbor 172.16.243.26;
+                }
+            }
+        }
+    }
+    inactive: VRF_INTERNET_TRANSIT2 {
+        instance-type vrf;
+        route-distinguisher 172.16.239.60:2780;
+        vrf-target target:65433:2780;
+        vrf-table-label;
+        routing-options {
+            static {
+                route 198.18.192.124/32 next-hop 172.16.243.185;
+                route 198.18.192.123/32 next-hop 172.16.243.185;
+                route 192.0.2.2/32 next-hop 172.16.243.162;
+            }
+            flow {
+                interface-group 1 exclude;
+                term-order standard;
+            }
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group DT0SP7K1 {
+                    type external;
+                    description "BGP FlowSpec and IPv4 session with Arbor collector";
+                    multihop {
+                        ttl 5;
+                    }
+                    local-address 172.16.243.186;
+                    hold-time 180;
+                    family inet {
+                        unicast;
+                        flow {
+                            no-validate FS_ARBOR_COLLECTOR_IN;
+                        }
+                    }
+                    peer-as 64999;
+                    neighbor 198.18.192.124 {
+                        authentication-key "$9$c7arlvN-bw2oO1X-db2gQFn69A";
+                    }
+                }
+                group DT0Q10K01_GI {
+                    type internal;
+                    export PL_DT0Q10K01_GI_OUT;
+                    neighbor 172.16.243.152 {
+                        description "DT0Q10K01 VRF_INTERNET_TRANSIT";
+                    }
+                }
+                group DT0E9214 {
+                    type external;
+                    preference 140;
+                    export POLICY_EXPORT_VRF_INTERNET_TRANSIT_EX;
+                    peer-as 65444;
+                    neighbor 172.16.243.157 {
+                        description "DT0E9214 VRF_TB_INT_IN";
+                    }
+                }
+                group DT0HD1K1 {
+                    type external;
+                    description "BGP IPv4 session with Arbor TMS";
+                    multihop {
+                        ttl 5;
+                    }
+                    local-address 172.16.243.186;
+                    hold-time 180;
+                    family inet {
+                        unicast;
+                    }
+                    export DROP_ALL;
+                    peer-as 64999;
+                    neighbor 198.18.192.123 {
+                        authentication-key "$9$c7arlvN-bw2oO1X-db2gQFn69A";
+                    }
+                }
+            }
+        }
+    }
+    inactive: VRF_INTERNET_TRANSIT_TEST {
+        instance-type vrf;
+        route-distinguisher 172.16.239.60:1780;
+        vrf-import VRF_INTERNET_TRANSIT_TEST_IMPORT;
+        vrf-export VRF_INTERNET_TRANSIT_TEST_EXPORT;
+        vrf-table-label;
+        routing-options {
+            static {
+                route 1.1.1.1/32 next-hop 172.17.32.10;
+                inactive: route 80.233.48.0/23 next-hop 172.17.31.9;
+                route 198.18.192.124/32 next-hop 172.16.243.185;
+            }
+            flow {
+                interface-group 1 exclude;
+                term-order standard;
+            }
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group DT0SP7K1 {
+                    type external;
+                    description "BGP FlowSpec and IPv4 session with Arbor collector";
+                    multihop {
+                        ttl 5;
+                    }
+                    local-address 172.16.243.186;
+                    hold-time 180;
+                    import RM_VRF_INTERNET_TRANSIT_ARBOR_BH;
+                    family inet {
+                        unicast;
+                        flow {
+                            no-validate FS_ARBOR_COLLECTOR_IN;
+                        }
+                    }
+                    peer-as 64999;
+                    neighbor 198.18.192.124 {
+                        authentication-key "$9$c7arlvN-bw2oO1X-db2gQFn69A";
+                    }
+                }
+                group DT0Q10K01_GI {
+                    type internal;
+                    export PL_DT0Q10K01_GI_OUT;
+                    neighbor 172.16.243.152 {
+                        description "DT0Q10K01 VRF_INTERNET_TRANSIT_TEST";
+                    }
+                }
+                group DT0E9214 {
+                    type external;
+                    preference 140;
+                    export POLICY_EXPORT_VRF_INTERNET_TRANSIT_EX;
+                    peer-as 65444;
+                    neighbor 172.16.243.157 {
+                        description "DT0E9214 VRF_TB_INT_IN";
+                    }
+                }
+            }
+        }
+    }
+    VRF_QFX_IN {
+        instance-type vrf;
+        interface ae8.682;
+        interface lo0.113;
+        route-distinguisher 172.16.239.60:764;
+        vrf-target target:13280:764;
+        vrf-table-label;
+        routing-options {
+            router-id 113.113.113.113;
+        }
+        protocols {
+            bgp {
+                group DT0ESFW01.1 {
+                    type external;
+                    neighbor 172.16.240.245 {
+                        description "DT0ESFW01.1 BGP 1";
+                        local-address 172.16.240.244;
+                        import RM_VRF_GN_PREFIXES_FROM_DN2FWF03;
+                        export RM_VRF_GN_PREFIXES_TO_DN2FWF03;
+                        peer-as 65111;
+                    }
+                }
+            }
+        }
+    }
+    VRF_QFX_OUT {
+        instance-type vrf;
+        interface ae8.684;
+        interface lo0.112;
+        route-distinguisher 172.16.239.60:765;
+        vrf-target target:65333:765;
+        protocols {
+            bgp {
+                traceoptions {
+                    file vrf_VRF_QFX_IN_OUT.log size 1m;
+                    flag state;
+                    flag packets;
+                }
+                group DT0ESFW01 {
+                    type external;
+                    neighbor 172.16.240.249 {
+                        description DT0ESFW01;
+                        local-address 172.16.240.248;
+                        import RM_VRF_GN_DN2_OUT_PREFIXES_FROM_DN2FWF03;
+                        export RM_VRF_GN_DN2_OUT_PREFIXES_TO_DN2FWF03;
+                        peer-as 65111;
+                    }
+                }
+            }
+        }
+    }
+    VRF_RAN {
+        instance-type vrf;
+        interface xe-0/0/2:0.0;
+        interface ae8.637;
+        interface ae8.735;
+        interface ae8.736;
+        interface ae20.1111;
+        route-distinguisher 172.16.239.60:735;
+        vrf-target target:65333:735;
+        vrf-table-label;
+        protocols {
+            bgp {
+                group DT0E9214 {
+                    type external;
+                    peer-as 65444;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.241.178 {
+                        description "DT0E9214 EUTRAN";
+                        export RAN_to_9214_EUTRAN;
+                    }
+                    neighbor 172.16.243.242 {
+                        description "DT0E9214 TOP";
+                        export RAN_to_9214_TOP_export;
+                    }
+                }
+                group RAN-DT0E9214 {
+                    export POLICY_EXPORT_VRF_RAN_TO_RAN_9214;
+                    peer-as 65444;
+                    neighbor 172.16.244.73 {
+                        description "DT0E9214 RAN";
+                    }
+                }
+                group DT0S5801 {
+                    export TO_DT0S5801_RAN;
+                    peer-as 65430;
+                    bfd-liveness-detection {
+                        minimum-interval 150;
+                    }
+                    neighbor 172.16.244.98;
+                }
+            }
+            ospf {
+                export OSPF-DIRECT_EXPORT;
+                area 9.0.0.1 {
+                    interface xe-0/0/2:0.0 {
+                        interface-type p2p;
+                        metric 100;
+                        authentication {
+                            md5 1 key "$9$WvBXxdbwgJUHM8xdbsZGP5Qz6AOBE";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VRF_TB_MDS_INTERNET {
+        instance-type vrf;
+        interface ae16.783;
+        interface ae16.787;
+        interface ae16.792;
+        route-distinguisher 172.16.239.60:930;
+        vrf-import VRF_MDS_INTERNET_IMPORT;
+        vrf-export VRF_MDS_INTERNET_EXPORT;
+        vrf-target target:13280:930;
+        vrf-table-label;
+        routing-options {
+            aggregate {
+                route 95.83.229.128/25;
+            }
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group ISP {
+                    type external;
+                    authentication-key "$9$McyXx-DjqQF/DiPQn6u0xNdbgoaZUDHq9AOIcSvM";
+                    peer-as 4200008193;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        multiplier 3;
+                    }
+                    as-override;
+                    neighbor 172.16.90.6 {
+                        description "VRF_TB_MDS_INTERNET DT0CPE02 VRF_ISP";
+                    }
+                    neighbor 172.16.90.10 {
+                        description "DT0CPE03 VRF_ISP";
+                    }
+                    neighbor 172.16.90.18 {
+                        description "DT0CPE05 VRF_ISP";
+                    }
+                }
+            }
+        }
+    }
+    VRF_TB_OAM_MDS_EXT {
+        instance-type vrf;
+        interface ae8.635;
+        route-distinguisher 172.16.239.60:199;
+        vrf-import TB_OAM_MDS_IMPORT;
+        vrf-export TB_OAM_MDS_EXPORT;
+        routing-options {
+            static {
+                route 169.254.31.0/24 discard;
+            }
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group DT0E9214 {
+                    export TO_DT0E9214_VRF_TB_OAM_MDS_EXT;
+                    peer-as 65444;
+                    neighbor 172.16.244.52;
+                }
+            }
+        }
+    }
+    VRF_VOICE_MEDIA_EXT_DN2 {
+        instance-type vrf;
+        interface ae60.320;
+        route-distinguisher 172.16.239.60:788;
+        vrf-target target:65333:788;
+        vrf-table-label;
+        routing-options {
+            router-id 10.162.136.114;
+        }
+        protocols {
+            bgp {
+                group VODAFONE {
+                    type external;
+                    traceoptions {
+                        file VODAFONE size 5m files 10;
+                        flag all;
+                    }
+                    log-updown;
+                    import RM_PREFIXES_FROM_VODAFONE;
+                    peer-as 15502;
+                    neighbor 10.162.136.113 {
+                        description VODAFONE;
+                    }
+                }
+            }
+        }
+    }
+}
+vlans {
+    VLAN-3123 {
+        description QFX_TEST_L2;
+        vlan-id 3123;
+        l3-interface irb.3123;
+    }
+    VLAN-682 {
+        vlan-id 682;
+    }
+    VLAN-684 {
+        vlan-id 684;
+    }
+}

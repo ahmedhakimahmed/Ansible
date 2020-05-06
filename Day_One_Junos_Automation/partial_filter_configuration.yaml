@@ -27,17 +27,30 @@
 
 
   tasks:
+    - name: fail if filter not define
+      fail:
+        msg: >
+          Specify the junos configuration you want to backup by
+          providing --extra-vars agrument
+          for example, --extra-vars 'filter=system/ntp'
+      when: filter is not defined 
+
     - name: create directory if needed for partial configuration
       file:
         path: "{{ partial_conf }}"
         state: directory
+
+    - name: show filter setting from command line
+      debug:
+        var: filter | mandatory
+        verbosity: 1
 
     - name: get device partial configuration
       junos_get_config:
         dest: "{{ conf_file_xml }}"
         provider: "{{ connection_info }}"
         format: "xml"
-        filter: "system/login"
+        filter: "{{ filter | mandatory }}"
         options: {'database':'committed'}
 
     - name: get device configuration
@@ -45,7 +58,7 @@
         dest: "{{ conf_file_text }}"
         provider: "{{ connection_info }}"
         format: "text"
-        filter: "system/login"
+        filter: "{{ filter | mandatory }}"
         options: {'database':'committed'}
 
     - name: get device configuration
@@ -53,7 +66,7 @@
         dest: "{{ conf_file_json }}"
         provider: "{{ connection_info }}"
         format: json
-        filter: "system/login"
+        filter: "{{ filter | mandatory }}"
         options: {'database':'committed'}
 
     - name: print version
