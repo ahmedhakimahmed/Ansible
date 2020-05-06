@@ -1,2 +1,4 @@
-sflow_interfaces: "xe-0/0/0:2.400"
+sflow_interfaces:
+           - "xe-0/0/0:2.400"
+           - "xe-0/0/1:0.625"
 

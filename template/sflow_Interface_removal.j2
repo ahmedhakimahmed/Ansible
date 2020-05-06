@@ -1,6 +1,8 @@
 protocols {
     sflow {
-        delete: interfaces {{ sflow_interfaces }};
+      {% for interface in sflow_interfaces %}
+        delete: interfaces {{ interface }};
+      {% endfor %}
     }
 }
 
